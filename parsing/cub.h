@@ -14,6 +14,8 @@ typedef struct s_config
     char *ea;
     char *floor_color_str;
     char *ceiling_color_str;
+    int floor_rgb;
+    int ceiling_rgb;
 } t_config;
 
 
@@ -28,4 +30,8 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
 int     check_extension(int ac, char *filename);
+int     parse_texture(char *filename, t_config *con);
+char	**ft_split(char const *s, char c);
+int     ft_atoi(char *str);
+int     parse_rgb(char *f_str, char *c_str, t_config *con);
 #endif
