@@ -17,6 +17,12 @@ typedef struct s_config
 } t_config;
 
 
+typedef struct s_data{
+
+    void *floo
+
+} t_data;
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
