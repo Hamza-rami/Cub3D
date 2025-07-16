@@ -6,17 +6,30 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
+
+typedef union u_color
+{
+	unsigned int value;
+	struct
+	{
+		unsigned char b;
+		unsigned char g;
+		unsigned char r;
+	};
+}			t_color;
+
 typedef struct s_config
 {
     char *no;
     char *so;
     char *we;
     char *ea;
-    char *floor_color_str;
-    char *ceiling_color_str;
-    int floor_rgb;
-    int ceiling_rgb;
+    char **map;
+    int count;
+    t_color floor_rgb;
+    t_color ceiling_rgb;
 } t_config;
+
 
 
 # ifndef BUFFER_SIZE
@@ -33,5 +46,6 @@ int     check_extension(int ac, char *filename);
 int     parse_texture(char *filename, t_config *con);
 char	**ft_split(char const *s, char c);
 int     ft_atoi(char *str);
-int     parse_rgb(char *f_str, char *c_str, t_config *con);
+int     parse_rgb(char *str);
+void    store_map(char *file, t_config *con);
 #endif

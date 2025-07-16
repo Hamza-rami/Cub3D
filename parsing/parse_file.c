@@ -1,15 +1,5 @@
 #include "cub.h"
 
-int ft_strlen(char *str)
-{
-    int i = 0;
-    if (!str)
-        return (0);
-    while (str[i])
-        i++;
-    return (i);
-}
-
 int ft_strcmp(char *s1, char *s2)
 {
     int i = 0;
@@ -64,6 +54,22 @@ void free_split(char **arr)
     free(arr);
 }
 
+int parse_rgb(char *str)
+{
+	char **split;
+	int r;
+    int g;
+    int b;
+
+	split = ft_split(str, ',');
+	if (!split[0] || !split[1] || !split[2] || split[3])
+    	return (printf("Error: invalid floor color format\n"), exit(1), 1);
+	r = ft_atoi(split[0]);
+	g = ft_atoi(split[1]);
+	b = ft_atoi(split[2]);
+	free_split(split);
+	return((r << 16) | (g << 8) | b);
+}
 
 int parse_texture(char *filename, t_config *con)
 {
@@ -76,13 +82,21 @@ int parse_texture(char *filename, t_config *con)
     int     has_ea = 0;
     int     has_f = 0;
     int     has_c = 0;
-
+    
+    
+    con->count = 0;
     fd = open(filename, O_RDONLY);
     if (fd < 0)
         return (perror("can't open .cub file"), 0);
     line = get_next_line(fd);
     while (line)
     {
+        if (line[0] == '\n')
+        {
+            free(line);
+            line = get_next_line(fd);
+            continue ;
+        }
         if (!ft_strncmp(line, "NO ", 3))
         {
             split = ft_split(line, ' ');
@@ -124,7 +138,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid line format\n"), free_split(split), 0);
-            con->floor_color_str = ft_strdup(split[1]);
+            con->floor_rgb.value = parse_rgb(split[1]);
 			free_split(split);
             has_f++;
         }
@@ -133,10 +147,11 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid line format\n"), free_split(split), 0);
-            con->ceiling_color_str = ft_strdup(split[1]);
+            con->ceiling_rgb.value = parse_rgb(split[1]);
             free_split(split);
 			has_c++; 
         }
+        con->count++;
         free(line);
         line = get_next_line(fd);
     }
@@ -148,30 +163,42 @@ int parse_texture(char *filename, t_config *con)
     return (1);
 }
 
-int parse_rgb(char *f_str, char *c_str, t_config *con)
+
+void store_map(char *file, t_config *con)
 {
-	char **f_split;
-	char **c_split;
-	int r;
-    int g;
-    int b;
+    char *line;
+    int count = 0;
+    int fd;
+    int i = 0;
 
-	f_split = ft_split(f_str, ',');
-	c_split = ft_split(c_str, ',');
-	if (!f_split[0] || !f_split[1] || !f_split[2] || f_split[3])
-    	return (printf("Error: invalid floor color format\n"), 0);
-	if (!c_split[0] || !c_split[1] || !c_split[2] || c_split[3])
-    	return (printf("Error: invalid ceiling color format\n"), 0);
-	r = ft_atoi(f_split[0]);
-	g = ft_atoi(f_split[1]);
-	b = ft_atoi(f_split[2]);
-	con->floor_rgb = (r << 16) | (g << 8) | b;
-	r = ft_atoi(c_split[0]);
-	g = ft_atoi(c_split[1]);
-	b = ft_atoi(c_split[2]);
-	con->ceiling_rgb = (r << 16) | (g << 8) | b;
-	free_split(f_split);
-	free_split(c_split);
-
-	return (1);
+    fd = open(file, O_RDONLY);
+    if (fd < 0)
+    {
+        perror("can't open .cub file");
+        exit(1);
+    }
+    con->map = malloc(con->count - 5 * sizeof(char *));
+    if (!con->map)
+    {
+        printf("%s");
+        exit(1);
+    }
+    line = get_next_line(fd);
+    while(line)
+    {
+        if (line[0] == '\n')
+        {
+            free(line);
+            line = get_next_line(fd);
+            continue ;
+        }
+        count++;
+        if (count > 6)
+        {
+            con->map[i] = ft_strdup(line);
+            i++;
+        }
+        free(line);
+        line = get_next_line(fd);
+    }
 }

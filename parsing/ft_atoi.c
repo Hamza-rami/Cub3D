@@ -23,9 +23,8 @@ int	ft_atoi(char *str)
 	i = 0;
 	r = 0;
 	ft_skip(str, &i);
-	while (str[i])
+	while (str[i] && str[i] != '\n')
 	{
-		printf("--%c--\n", str[i]);
 		if (str[i] < '0' || str[i] > '9')
 		{
 			printf("Error: color value Not Exact");
@@ -41,7 +40,7 @@ int	ft_atoi(char *str)
 	}
 	if (r > 255)
 	{
-		printf("Error: color value Not Exact");
+		printf("Error: color value out of range");
 		exit(1);
 	}
 	return (r);
