@@ -48,4 +48,6 @@ char	**ft_split(char const *s, char c);
 int     ft_atoi(char *str);
 int     parse_rgb(char *str);
 void    store_map(char *file, t_config *con);
+int     valide_char(t_config *con);
+int     is_map_closed(t_config *con);
 #endif

@@ -1,7 +1,7 @@
 NAME = cub
 
-SRC = cub.c parse_file.c ../get_next_line/get_next_line.c  ../get_next_line/get_next_line_utils.c ft_splite.c \
-		ft_atoi.c 
+SRC = cub.c parse_file.c ../next_line/get_next_line.c  ../next_line/get_next_line_utils.c ft_splite.c \
+		ft_atoi.c  parse_map.c
 
 INC = cub.h
 OBJS = ${SRC:.c=.o}

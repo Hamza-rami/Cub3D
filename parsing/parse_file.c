@@ -177,10 +177,9 @@ void store_map(char *file, t_config *con)
         perror("can't open .cub file");
         exit(1);
     }
-    con->map = malloc(con->count - 5 * sizeof(char *));
+    con->map = malloc((con->count - 5) * sizeof(char *));
     if (!con->map)
     {
-        printf("%s");
         exit(1);
     }
     line = get_next_line(fd);
@@ -192,13 +191,14 @@ void store_map(char *file, t_config *con)
             line = get_next_line(fd);
             continue ;
         }
-        count++;
-        if (count > 6)
+        if (count > 5)
         {
             con->map[i] = ft_strdup(line);
             i++;
         }
+        count++;
         free(line);
         line = get_next_line(fd);
     }
-}
+    con->map[i] = NULL;
+}  
