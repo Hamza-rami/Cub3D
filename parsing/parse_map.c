@@ -51,9 +51,6 @@ int valide_char(t_config *con)
 	return 1;
 }
 
-#include <stdlib.h>
-#include <string.h>
-
 int	ft_max_len(char **map)
 {
 	int i = 0;

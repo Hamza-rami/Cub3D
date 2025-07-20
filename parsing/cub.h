@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include "mlx.h"
 
 
 typedef union u_color
@@ -31,10 +32,22 @@ typedef struct s_config
 } t_config;
 
 
+typedef struct s_game
+{
+    int     win_width;
+    int     win_height;
+    void    *mlx;
+    void    *window;
+    float   player_x;
+    float   player_y;
+}   t_game;
+
+
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+#define TILE_SIZE 32
 
 char	*ft_strncpy(char *dest, char const *src, unsigned int n);
 char	*ft_strchr(const char *s, int c);
@@ -48,6 +61,9 @@ char	**ft_split(char const *s, char c);
 int     ft_atoi(char *str);
 int     parse_rgb(char *str);
 void    store_map(char *file, t_config *con);
+int     ft_max_len(char **map);
 int     valide_char(t_config *con);
 int     is_map_closed(t_config *con);
+void    put_window(t_config *con, t_game *game);
+void    put_pxls(t_config *con, t_game *game);
 #endif
