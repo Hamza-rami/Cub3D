@@ -18,20 +18,20 @@ void	remove_newlines(char **map)
 }
 
 
-int valide_char(t_config *con)
+int valide_char(t_game *game)
 {
 	int y = 0;
 	int x;
 	int player = 0;
 	char c;
 
-	remove_newlines(con->map);
-	while (con->map[y])
+	remove_newlines(game->map);
+	while (game->map[y])
 	{
 		x = 0;
-		while (con->map[y][x])
+		while (game->map[y][x])
 		{
-			c = con->map[y][x];
+			c = game->map[y][x];
 			if (c != '1' && c != '0' && c != ' ' && c != 'W' && c != 'S' && c != 'N' && c != 'E')
 			{
 				printf("Error: Invalid character '%c' at [%d][%d]\n", c, y, x);
@@ -110,25 +110,25 @@ int is_invalid_tile(char c)
 	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-int is_map_closed(t_config *con)
+int is_map_closed(t_game *game)
 {
 	int y = 0;
 	int x;
 
-	con->map = pad_map_lines(con->map);
-	if (!con->map)
+	game->map = pad_map_lines(game->map);
+	if (!game->map)
 	{
 		printf("ERROR : malloc failed");
 		return (0);
 	}
-	while (con->map[y])
+	while (game->map[y])
 	{
 		x = 0;
-		if (y == 0 || con->map[y + 1] == NULL)
+		if (y == 0 || game->map[y + 1] == NULL)
 		{
-			while (con->map[y][x])
+			while (game->map[y][x])
 			{
-				if (con->map[y][x] != '1' && con->map[y][x] != ' ')
+				if (game->map[y][x] != '1' && game->map[y][x] != ' ')
 				{
 					printf("Error: in border\n");
 					return (0);
@@ -138,13 +138,13 @@ int is_map_closed(t_config *con)
 		}
 		else
 		{
-			while (con->map[y][x])
+			while (game->map[y][x])
 			{
-			if (is_invalid_tile(con->map[y][x]))
+			if (is_invalid_tile(game->map[y][x]))
 			{
-				if (x == 0 || !con->map[y][x + 1]
-					|| con->map[y - 1][x] == ' ' || con->map[y + 1][x] == ' '
-					|| con->map[y][x - 1] == ' ' || con->map[y][x + 1] == ' ')
+				if (x == 0 || !game->map[y][x + 1]
+					|| game->map[y - 1][x] == ' ' || game->map[y + 1][x] == ' '
+					|| game->map[y][x - 1] == ' ' || game->map[y][x + 1] == ' ')
 				{
 					printf("Error: invalid open space\n");
 					return 0;

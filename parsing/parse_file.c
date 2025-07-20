@@ -71,7 +71,7 @@ int parse_rgb(char *str)
 	return((r << 16) | (g << 8) | b);
 }
 
-int parse_texture(char *filename, t_config *con)
+int parse_texture(char *filename, t_game *game)
 {
     int     fd;
     char    *line;
@@ -84,7 +84,7 @@ int parse_texture(char *filename, t_config *con)
     int     has_c = 0;
     
     
-    con->count = 0;
+    game->count = 0;
     fd = open(filename, O_RDONLY);
     if (fd < 0)
         return (perror("can't open .cub file"), 0);
@@ -102,7 +102,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid NO line format\n"), free_split(split), 0);
-            con->no = ft_strdup(split[1]);
+            game->no = ft_strdup(split[1]);
             free_split(split);
             has_no++;
         }
@@ -111,7 +111,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid SO line format\n"), free_split(split), 0);
-            con->so = ft_strdup(split[1]);
+            game->so = ft_strdup(split[1]);
             free_split(split);
             has_so++;
         }
@@ -120,7 +120,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid WE line format\n"), free_split(split), 0);
-            con->we = ft_strdup(split[1]);
+            game->we = ft_strdup(split[1]);
             free_split(split);
             has_we++;
         }
@@ -129,7 +129,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid EA line format\n"), free_split(split), 0);
-            con->ea = ft_strdup(split[1]);
+            game->ea = ft_strdup(split[1]);
             free_split(split);
             has_ea++;
         }
@@ -138,7 +138,7 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid line format\n"), free_split(split), 0);
-            con->floor_rgb.value = parse_rgb(split[1]);
+            game->floor_rgb.value = parse_rgb(split[1]);
 			free_split(split);
             has_f++;
         }
@@ -147,11 +147,11 @@ int parse_texture(char *filename, t_config *con)
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
                  return (printf("Error: invalid line format\n"), free_split(split), 0);
-            con->ceiling_rgb.value = parse_rgb(split[1]);
+            game->ceiling_rgb.value = parse_rgb(split[1]);
             free_split(split);
 			has_c++; 
         }
-        con->count++;
+        game->count++;
         free(line);
         line = get_next_line(fd);
     }
@@ -164,7 +164,7 @@ int parse_texture(char *filename, t_config *con)
 }
 
 
-void store_map(char *file, t_config *con)
+void store_map(char *file, t_game *game)
 {
     char *line;
     int count = 0;
@@ -177,8 +177,8 @@ void store_map(char *file, t_config *con)
         perror("can't open .cub file");
         exit(1);
     }
-    con->map = malloc((con->count - 5) * sizeof(char *));
-    if (!con->map)
+    game->map = malloc((game->count - 5) * sizeof(char *));
+    if (!game->map)
     {
         exit(1);
     }
@@ -193,12 +193,12 @@ void store_map(char *file, t_config *con)
         }
         if (count > 5)
         {
-            con->map[i] = ft_strdup(line);
+            game->map[i] = ft_strdup(line);
             i++;
         }
         count++;
         free(line);
         line = get_next_line(fd);
     }
-    con->map[i] = NULL;
+    game->map[i] = NULL;
 }  
