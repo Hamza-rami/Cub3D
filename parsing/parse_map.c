@@ -38,7 +38,11 @@ int valide_char(t_game *game)
 				return 0;
 			}
 			if (c == 'W' || c == 'S' || c == 'N' || c == 'E')
+			{
+				// game->player->player_x = x;
+				// game->player->player_y = y;
 				player++;
+			}
 			x++;
 		}
 		y++;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yhajji <yhajji@student.42.fr>              #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-08-18 02:29:36 by yhajji            #+#    #+#             */
+/*   Updated: 2025-08-18 02:29:36 by yhajji           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB_H
 #define CUB_H
 
@@ -6,6 +18,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "mlx.h"
+#include <stdbool.h>
 
 
 typedef union u_color
@@ -20,22 +33,40 @@ typedef union u_color
 }			t_color;
 
 
+typedef struct s_img
+{
+	void	*img;
+	char	*img_p_data; // img data pixle
+	int 	bit_p_pixle; // the bite of the pixle 
+	int 	line_len; // the len of the line of pixle 
+	int 	endain;	
+
+} t_img;
+typedef struct s_player
+{
+	float   player_x;
+	float   player_y;
+	float	player_angle; // Player direction in radians
+} t_player;
+
 typedef struct s_game
 {	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
 	char	**map;
+	int 	map_height;
+	int 	map_width;
 	int		count;
 	t_color	floor_rgb;
 	t_color	ceiling_rgb;
+	t_img   *img_buffer;
+	t_player	*player;
 	int     win_width;
 	int     win_height;
 	void    *mlx;
 	void    *window;
-	float   player_x;
-	float   player_y;
-	float	player_angle;  // Player direction in radians
+	  
 	char	pos;
 }   t_game;
 
@@ -44,8 +75,11 @@ typedef struct s_game
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-#define TILE_SIZE 32
-#define ROTATE_SPEED 0.05
+
+
+
+#define TILE_SIZE 64
+#define ROTATE_SPEED 0.02
 #define MOVE_SPEED 20
 #define KEY_ESC  53
 #define KEY_W       13
@@ -73,5 +107,9 @@ int     valide_char(t_game *con);
 int     is_map_closed(t_game *con);
 void    put_window(t_game *game);
 void    put_pxls(t_game *game);
+int render_map(void *parm);
+// int redraw(void *param); 
+void init_game_graphics(t_game *game);
+void check_move(t_game *game, int x, int y);
 int     handle_key(int keycode, t_game *game);
 #endif
