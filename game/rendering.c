@@ -68,7 +68,7 @@ void draw_squer(t_game *game, int p_x , int p_y, int color)
         x++;
     }
 }
-
+// for test !!!
 void draw_circle(t_game *game, int cx, int cy, int radius, int color)
 {
     int x;
@@ -82,13 +82,12 @@ void draw_circle(t_game *game, int cx, int cy, int radius, int color)
         {
             dx = cx + x;
             dy = cy + y;
-            // check if inside circle (x² + y² <= r²)
             if (x * x + y * y <= radius * radius)
                 my_img_buffer(game, dx, dy, color);
         }
     }
 }
-
+///
 
 
 
@@ -127,7 +126,7 @@ void put_pxls(t_game *game)
         x++;
         
     }
-
+    // draw_squer(the same parm /!\) !!!!!
     draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
     
     return ; 
@@ -214,30 +213,33 @@ void check_move(t_game *game, int new_x, int new_y)
 
 int handle_key(int keycode, t_game *game)
 {
+
+    int new_x;
+    int new_y;
+
+    new_x = game->player->player_x;
+    new_y = game->player->player_y;
     if (keycode == KEY_ESC)
         exit(0);
     else if (keycode == KEY_W)
     {
-        printf("Moving UP\n");
-        check_move(game, game->player->player_x,  game->player->player_y -= MOVE_SPEED); 
+        new_y -= MOVE_SPEED;
     }
     else if (keycode == KEY_S)
     {
-        printf("Moving DOWN\n");
-        check_move(game, game->player->player_x ,game->player->player_y += MOVE_SPEED); 
+        new_y += MOVE_SPEED ;
     }
     else if (keycode == KEY_A)
     {
-        printf("Moving LEFT\n");
-        check_move(game, game->player->player_x -= MOVE_SPEED, game->player->player_y); 
+        new_x -= MOVE_SPEED;
     }
     else if (keycode == KEY_D)
     {
-        printf("Moving RIGHT\n");
-        check_move(game, game->player->player_x += MOVE_SPEED, game->player->player_y); 
+        new_x += MOVE_SPEED;
     }
     else
         return (0);
+    check_move(game, new_x, new_y);
     return (0);
 }
 

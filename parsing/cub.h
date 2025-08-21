@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "mlx.h"
+#include <math.h>
 #include <stdbool.h>
 
 
