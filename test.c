@@ -1,19 +1,15 @@
 #include <stdio.h>
-
+#include <math.h>
 
 
 int main(void){
 
 
     int a = 500;
-    int b =  100;
-    printf("%d a ===> \n", a);
-    printf("%d b =====> \n", b);
+    int b =  100;   
 
-    a = a + b;
-    b = a - b;
-    a = a - b;
 
-    printf("%d a ===> \n", a);
-    printf("%d b =====> \n", b);
+    printf("%f === \n", M_PI);
+    printf("%f === \n", (3 * M_PI / 2));
+    printf("%f === \n", M_PI);
 }

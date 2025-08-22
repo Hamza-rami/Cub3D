@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              #+#  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025-08-18 02:29:36 by yhajji           ###   ########.fr       */
+/*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
+/*   Updated: 2025/08/22 05:25:37 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_game
 
 
 #define TILE_SIZE 64
-#define ROTATE_SPEED 0.02
+#define ROTATE_SPEED 0.5
 #define MOVE_SPEED 20
 #define KEY_ESC  53
 #define KEY_W       13
@@ -89,6 +89,7 @@ typedef struct s_game
 #define KEY_D       2
 #define KEY_LEFT    123
 #define KEY_RIGHT   124
+#define FOV  (M_PI / 3)
 
 
 char	*ft_strncpy(char *dest, char const *src, unsigned int n);
@@ -113,4 +114,9 @@ int render_map(void *parm);
 void init_game_graphics(t_game *game);
 void check_move(t_game *game, int x, int y);
 int     handle_key(int keycode, t_game *game);
+void init_player_angle(t_game *game);
+void renader_rays(t_game *game);
+void my_img_buffer(t_game *game, int x, int y, int color);
+
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/07/12 15:49:31 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/08/22 05:57:14 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,8 +181,7 @@ int render_map(void *parm)
     clear_image(game);
 
     put_pxls(game);
-
-    
+    renader_rays(game);
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     
     return (0);
@@ -223,22 +222,32 @@ int handle_key(int keycode, t_game *game)
         exit(0);
     else if (keycode == KEY_W)
     {
-        new_y -= MOVE_SPEED;
+        new_x += cos(game->player->player_angle) * MOVE_SPEED ;
+        new_y += sin(game->player->player_angle) * MOVE_SPEED ;
     }
     else if (keycode == KEY_S)
     {
-        new_y += MOVE_SPEED ;
+        new_y -=  sin(game->player->player_angle) * MOVE_SPEED ;
+        new_x -=  cos(game->player->player_angle) * MOVE_SPEED ;
     }
     else if (keycode == KEY_A)
     {
-        new_x -= MOVE_SPEED;
+        new_x += cos(game->player->player_angle - (M_PI / 2)) * MOVE_SPEED ;
+        new_y += sin(game->player->player_angle - (M_PI / 2)) * MOVE_SPEED ;
     }
     else if (keycode == KEY_D)
     {
-        new_x += MOVE_SPEED;
+        new_x += cos(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
+        new_y += cos(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
     }
-    else
-        return (0);
+    if (keycode == KEY_LEFT)
+        game->player->player_angle -= ROTATE_SPEED ;
+    else if (keycode == KEY_RIGHT)
+        game->player->player_angle += ROTATE_SPEED ;
+    if (game->player->player_angle < 0)
+        game->player->player_angle += 2 * M_PI;
+    if (game->player->player_angle >= 2 * M_PI)
+        game->player->player_angle -= 2 * M_PI;
     check_move(game, new_x, new_y);
     return (0);
 }

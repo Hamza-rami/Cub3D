@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              #+#  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025-08-18 02:29:22 by yhajji           ###   ########.fr       */
+/*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
+/*   Updated: 2025/08/22 05:20:01 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #include "cub.h"
-
-
 
 // void init_data(t_game *game)
 // {
@@ -62,6 +62,7 @@ int main(int ac, char *av[])
         return (1);
     
     put_window(game);
+    init_player_angle(game);
     init_game_graphics(game);
     mlx_loop_hook(game->mlx, render_map, game);  
     mlx_hook(game->window, 2, 1L << 0, handle_key, game);
