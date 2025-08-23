@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/22 05:25:37 by hrami            ###   ########.fr       */
+/*   Updated: 2025/08/23 07:41:11 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@
 #include <math.h>
 #include <stdbool.h>
 
+
+
+typedef struct s_rayhit
+{
+	double distance;
+	int side;
+	int map_x;
+	int map_y;
+	double hiy_x;
+	double hit_y;
+	
+} t_rayhit;
 
 typedef union u_color
 {
@@ -81,7 +93,7 @@ typedef struct s_game
 
 #define TILE_SIZE 64
 #define ROTATE_SPEED 0.5
-#define MOVE_SPEED 20
+#define MOVE_SPEED 30
 #define KEY_ESC  53
 #define KEY_W       13
 #define KEY_A       0
@@ -117,6 +129,11 @@ int     handle_key(int keycode, t_game *game);
 void init_player_angle(t_game *game);
 void renader_rays(t_game *game);
 void my_img_buffer(t_game *game, int x, int y, int color);
+
+
+
+t_rayhit  *cast_ray(t_game *game, double ray_angle);
+void render_3d(t_game *game);
 
 
 #endif

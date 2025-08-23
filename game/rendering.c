@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/22 05:57:14 by hrami            ###   ########.fr       */
+/*   Updated: 2025/08/23 06:30:07 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void put_window(t_game *game)
 
     game->mlx = mlx_init();
     if (!game->mlx)
-        exit(1); // free befor the exit just for later !!! 
+        exit(1);  // free befor the exit just for later !!! 
     
     printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
     game->window = mlx_new_window(game->mlx, game->win_width, game->win_height, "cub3D");
@@ -90,7 +90,7 @@ void draw_circle(t_game *game, int cx, int cy, int radius, int color)
 ///
 
 
-
+// whent this for the bounse  >>> for the minimap in the top a hamza 
 void put_pxls(t_game *game)
 {
     int x;
@@ -131,7 +131,7 @@ void put_pxls(t_game *game)
     
     return ; 
 }
-
+// end (/!\) 
 
 void init_game_graphics(t_game *game)
 {
@@ -143,9 +143,9 @@ void init_game_graphics(t_game *game)
     }
     
     game->img_buffer->img_p_data = mlx_get_data_addr(game->img_buffer->img, 
-                                                   &game->img_buffer->bit_p_pixle, 
-                                                   &game->img_buffer->line_len, 
-                                                   &game->img_buffer->endain);
+                                                &game->img_buffer->bit_p_pixle, 
+                                                &game->img_buffer->line_len, 
+                                                &game->img_buffer->endain);
     if (!game->img_buffer->img_p_data)
     {
         printf("mlx_get_data_addr failed\n");
@@ -180,8 +180,12 @@ int render_map(void *parm)
 
     clear_image(game);
 
-    put_pxls(game);
-    renader_rays(game);
+    // put_pxls(game);
+    
+    // renader_rays(game);
+    
+    render_3d(game);
+
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     
     return (0);
@@ -238,7 +242,7 @@ int handle_key(int keycode, t_game *game)
     else if (keycode == KEY_D)
     {
         new_x += cos(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
-        new_y += cos(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
+        new_y += sin(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
     }
     if (keycode == KEY_LEFT)
         game->player->player_angle -= ROTATE_SPEED ;
