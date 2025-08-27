@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/23 06:30:07 by hrami            ###   ########.fr       */
+/*   Updated: 2025/08/27 02:26:49 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void put_pxls(t_game *game)
                 draw_squer(game, draw_x, draw_y, 0xFFFFFF);
             else if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
             {
-                game->player->player_x = y * TILE_SIZE; 
-                game->player->player_y = x * TILE_SIZE; 
+                game->player->player_x = y * TILE_SIZE ; 
+                game->player->player_y = x * TILE_SIZE ; 
 
                 game->map[x][y] = '0'; 
                 draw_squer(game, draw_x, draw_y, 0x800080);
@@ -180,11 +180,11 @@ int render_map(void *parm)
 
     clear_image(game);
 
-    // put_pxls(game);
+    put_pxls(game);
     
-    // renader_rays(game);
+    renader_rays(game);
     
-    render_3d(game);
+    // render_3d(game);
 
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     
@@ -246,7 +246,7 @@ int handle_key(int keycode, t_game *game)
     }
     if (keycode == KEY_LEFT)
         game->player->player_angle -= ROTATE_SPEED ;
-    else if (keycode == KEY_RIGHT)
+    if (keycode == KEY_RIGHT)
         game->player->player_angle += ROTATE_SPEED ;
     if (game->player->player_angle < 0)
         game->player->player_angle += 2 * M_PI;

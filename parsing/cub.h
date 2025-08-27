@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/23 07:41:11 by hrami            ###   ########.fr       */
+/*   Updated: 2025/08/27 08:06:44 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@
 typedef struct s_rayhit
 {
 	double distance;
-	int side;
-	int map_x;
-	int map_y;
-	double hiy_x;
-	double hit_y;
+    int side;     // 0 = x-side, 1 = y-side
+    int mapX;
+    int mapY;
+	double wallX; 
 	
 } t_rayhit;
 
@@ -59,6 +58,10 @@ typedef struct s_player
 {
 	float   player_x;
 	float   player_y;
+	float dir_x;
+    float dir_y;
+    float plane_x;
+    float plane_y;
 	float	player_angle; // Player direction in radians
 } t_player;
 
@@ -92,7 +95,8 @@ typedef struct s_game
 
 
 #define TILE_SIZE 64
-#define ROTATE_SPEED 0.5
+// #define ROTATE_SPEED 0.5 
+#define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 30
 #define KEY_ESC  53
 #define KEY_W       13
@@ -122,18 +126,23 @@ int     is_map_closed(t_game *con);
 void    put_window(t_game *game);
 void    put_pxls(t_game *game);
 int render_map(void *parm);
-// int redraw(void *param); 
+int redraw(void *param); 
 void init_game_graphics(t_game *game);
 void check_move(t_game *game, int x, int y);
 int     handle_key(int keycode, t_game *game);
 void init_player_angle(t_game *game);
-void renader_rays(t_game *game);
+// void renader_rays(t_game *game);
 void my_img_buffer(t_game *game, int x, int y, int color);
 
+// t_rayhit cast_ray(t_game *game, double ray_angle);
+
+void renader_rays(t_game *game);
 
 
-t_rayhit  *cast_ray(t_game *game, double ray_angle);
-void render_3d(t_game *game);
+
+// 2d map !!!
+void cast_ray(t_game *game, double ray_angle);
+// void render_3d(t_game *game);
 
 
 #endif
