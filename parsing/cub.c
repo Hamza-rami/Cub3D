@@ -69,3 +69,7 @@ int main(int ac, char *av[])
     mlx_loop(game->mlx);
     return 0;
 }
+
+
+
+

@@ -17,7 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "mlx.h"
+//#include "mlx.h" // for imac 
+#include "../minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdbool.h>
 
@@ -94,18 +95,43 @@ typedef struct s_game
 
 
 
-#define TILE_SIZE 64
-// #define ROTATE_SPEED 0.5 
-#define ROTATE_SPEED 10 * (3.14 / 180);
+#define TILE_SIZE 32
+#define ROTATE_SPEED 0.5 
+// #define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 30
-#define KEY_ESC  53
-#define KEY_W       13
-#define KEY_A       0
-#define KEY_S       1
-#define KEY_D       2
-#define KEY_LEFT    123
-#define KEY_RIGHT   124
+// for imac !!!
+// #define KEY_ESC  53
+// #define KEY_W       13
+// #define KEY_A       0
+// #define KEY_S       1
+// #define KEY_D       2
+// #define KEY_LEFT    123
+// #define KEY_RIGHT   124
+
+// for windows!!
+// #define KEY_ESC  53
+// #define KEY_W       13
+// #define KEY_A       0
+// #define KEY_S       1
+// #define KEY_D       2
+// #define KEY_LEFT    123
+// #define KEY_RIGHT   124
+
+
+// for linux 
+# define KEY_ESC     65307  // Escape
+# define KEY_W       119    // W
+# define KEY_A       97     // A
+# define KEY_S       115    // S
+# define KEY_D       100    // D
+# define KEY_LEFT    65361  // Left arrow
+# define KEY_RIGHT   65363
+
+
 #define FOV  (M_PI / 3)
+
+
+
 
 
 char	*ft_strncpy(char *dest, char const *src, unsigned int n);
@@ -141,7 +167,8 @@ void renader_rays(t_game *game);
 
 
 // 2d map !!!
-void cast_ray(t_game *game, double ray_angle);
+void	cast_ray(t_game *game, double ray_angle);
+// void cast_ray(t_game *game, double ray_angle);
 // void render_3d(t_game *game);
 
 

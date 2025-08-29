@@ -190,343 +190,112 @@ void draw_vertical_line(t_game *game, int x, int start, int end , int color)
 // }
 
 
-// void renader_rays(t_game *game)
+
+
+
+void	cast_ray(t_game *game, double ray_angle)
+{
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+
+	ray_dir_x = cos(ray_angle);
+	ray_dir_y = sin(ray_angle);
+	map_x = (int)(game->player->player_x / TILE_SIZE);
+	map_y = (int)(game->player->player_y / TILE_SIZE);
+	if (ray_dir_x == 0)
+		delta_dist_x = 1e30;
+	else
+		delta_dist_x = fabs(1 / ray_dir_x);
+	if (ray_dir_y == 0)
+		delta_dist_y = 1e30;
+	else
+		delta_dist_y = fabs(1 / ray_dir_y);
+	if (ray_dir_x < 0)
+	{
+		step_x = -1;
+		side_dist_x = (game->player->player_x / TILE_SIZE - map_x) * delta_dist_x;
+	}
+	else
+	{
+		step_x = 1;
+		side_dist_x = (map_x + 1.0 - game->player->player_x / TILE_SIZE) * delta_dist_x;
+	}
+	if (ray_dir_y < 0)
+	{
+		step_y = -1;
+		side_dist_y = (game->player->player_y / TILE_SIZE - map_y) * delta_dist_y;
+	}
+	else
+	{
+		step_y = 1;
+		side_dist_y = (map_y + 1.0 - game->player->player_y / TILE_SIZE) * delta_dist_y;
+	}
+	hit = 0;
+	while (hit == 0)
+	{
+		if (side_dist_x < side_dist_y)
+		{
+			side_dist_x += delta_dist_x;
+			map_x += step_x;
+		}
+		else
+		{
+			side_dist_y += delta_dist_y;
+			map_y += step_y;
+		}
+		if (map_x < 0 || map_y < 0 || map_x >= game->map_width || map_y >= game->map_height)
+			break ;
+		if (game->map[map_y][map_x] == '1')
+			hit = 1;
+		my_img_buffer(game, map_x * TILE_SIZE, map_y * TILE_SIZE, 0xFF0000);
+	}
+}
+
+
+
+// void cast_ray(t_game *game, double ray_angle)
 // {
-//     double ray_angle = game->player->player_angle - (FOV / 2);
-//     int col = 0;
-//     double dist_proj_plane = (game->win_width / 2) / tan(FOV / 2);
-
-//     while (col < game->win_width)
-//     {
-//         t_rayhit hit = cast_ray(game, ray_angle);
-
-//         // correct fisheye
-//         double corrected_dist = hit.distance * cos(ray_angle - game->player->player_angle);
-
-//         // project wall
-//         int wall_height = (int)((TILE_SIZE / corrected_dist) * dist_proj_plane);
-
-//         int start = (game->win_height / 2) - (wall_height / 2);
-//         int end   = (game->win_height / 2) + (wall_height / 2);
-
-//         if (start < 0) start = 0;
-//         if (end >= game->win_height) end = game->win_height - 1;
-
-//         // ceiling
-//         draw_vertical_line(game, col, 0, start, 0x87CEEB);
-//         // wall
-//         draw_vertical_line(game, col, start, end, 0xFFFAAA);
-//         // floor
-//         draw_vertical_line(game, col, end, game->win_height, 0x444444);
-
-//         ray_angle += (FOV / game->win_width);
-//         col++;
-//     }
-// }
-
-// t_rayhit	cast_ray(t_game *game, double ray_angle)
-// {
-// 	t_rayhit	ray;
-// 	double		posX;
-// 	double		posY;
-// 	double		rayDirX;
-// 	double		rayDirY;
-// 	int			mapX;
-// 	int			mapY;
-// 	double		deltaDistX;
-// 	double		deltaDistY;
-// 	int			stepX;
-// 	int			stepY;
-// 	double		sideDistX;
-// 	double		sideDistY;
-// 	int			hit;
-// 	int			side;
-
-// 	posX = game->player->player_x;
-// 	posY = game->player->player_y;
-// 	rayDirX = cos(ray_angle);
-// 	rayDirY = sin(ray_angle);
-// 	mapX = (int)(posX / TILE_SIZE);
-// 	mapY = (int)(posY / TILE_SIZE);
-// 	if (rayDirX == 0)
-// 		deltaDistX = 1e30;
-// 	else
-// 		deltaDistX = fabs(TILE_SIZE / rayDirX);
-// 	if (rayDirY == 0)
-// 		deltaDistY = 1e30;
-// 	else
-// 		deltaDistY = fabs(TILE_SIZE / rayDirY);
-
-        
-//     if (rayDirX < 0)
-//         stepX = -1;
-//     else 
-//         stepX =  1;
-        
-
-//     if (rayDirY < 0)
-//         stepY = -1;
-//     else 
-//         stepY =  1;
-// 	if (rayDirX < 0)
-// 		sideDistX = (posX - mapX * TILE_SIZE) * deltaDistX / TILE_SIZE;
-// 	else
-// 		sideDistX = ((mapX + 1) * TILE_SIZE - posX) * deltaDistX / TILE_SIZE;
-// 	if (rayDirY < 0)
-// 		sideDistY = (posY - mapY * TILE_SIZE) * deltaDistY / TILE_SIZE;
-// 	else
-// 		sideDistY = ((mapY + 1) * TILE_SIZE - posY) * deltaDistY / TILE_SIZE;
-// 	hit = 0;
-// 	while (!hit)
-// 	{
-// 		if (sideDistX < sideDistY)
-// 		{
-// 			sideDistX += deltaDistX;
-// 			mapX += stepX;
-// 			side = 0;
-// 		}
-// 		else
-// 		{
-// 			sideDistY += deltaDistY;
-// 			mapY += stepY;
-// 			side = 1;
-// 		}
-// 		if (mapX < 0 || mapX >= game->map_width ||
-// 			mapY < 0 || mapY >= game->map_height)
-// 		{
-// 			hit = 1;
-// 			break ;
-// 		}
-// 		if (game->map[mapY][mapX] == '1')
-// 			hit = 1;
-// 	}
-// 	if (side == 0)
-// 		ray.distance = (sideDistX - deltaDistX);
-// 	else
-// 		ray.distance = (sideDistY - deltaDistY);
-// 	ray.side = side;
-// 	ray.mapX = mapX;
-// 	ray.mapY = mapY;
-// 	if (side == 0)
-// 		ray.wallX = posY + ray.distance * rayDirY / TILE_SIZE;
-// 	else
-// 		ray.wallX = posX + ray.distance * rayDirX / TILE_SIZE;
-// 	ray.wallX = fmod(ray.wallX, 1.0);
-// 	ray.distance = ray.distance; // already in pixels
-// 	return (ray);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// t_rayhit cast_ray(t_game *game, double ray_angle)
-// {
-//     t_rayhit ray;
-
-//     // Player position in map units
-//     double posX = game->player->player_x / TILE_SIZE;
-//     double posY = game->player->player_y / TILE_SIZE;
-
-//     // Ray direction
-//     double rayDirX = cos(ray_angle);
-//     double rayDirY = sin(ray_angle);
-
-//     // Current map cell
-//     int mapX = (int)posX;
-//     int mapY = (int)posY;
-
-//     // Distance to next x or y side
-//     double deltaDistX = (fabs(rayDirX) < 1e-6) ? 1e30 : fabs(1.0 / rayDirX);
-//     double deltaDistY = (fabs(rayDirY) < 1e-6) ? 1e30 : fabs(1.0 / rayDirY);
-
-//     // Step direction and initial sideDist
-//     int stepX = (rayDirX < 0) ? -1 : 1;
-//     int stepY = (rayDirY < 0) ? -1 : 1;
-
-//     double sideDistX = (rayDirX < 0) ? (posX - mapX) * deltaDistX
-//                                      : (mapX + 1.0 - posX) * deltaDistX;
-//     double sideDistY = (rayDirY < 0) ? (posY - mapY) * deltaDistY
-//                                      : (mapY + 1.0 - posY) * deltaDistY;
-
-//     // DDA loop
-//     int hit = 0;
-//     int side = 0; // 0=x side, 1=y side
-//     while (!hit)
-//     {
-//         if (sideDistX < sideDistY)
-//         {
-//             sideDistX += deltaDistX;
-//             mapX += stepX;
-//             side = 0;
-//         }
-//         else
-//         {
-//             sideDistY += deltaDistY;
-//             mapY += stepY;
-//             side = 1;
-//         }
-
-//         // Stop if outside map
-//         if (mapX < 0 || mapX >= game->map_width
-//          || mapY < 0 || mapY >= game->map_height)
-//         {
-//             hit = 1; // treat as wall hit
-//             break;
-//         }
-
-//         // Wall hit
-//         if (game->map[mapY][mapX] == '1')
-//             hit = 1;
-//     }
-
-//     // Calculate perpendicular distance to avoid fisheye
-//     double perpWallDist = (side == 0) ? (sideDistX - deltaDistX)
-//                                       : (sideDistY - deltaDistY);
-
-//     // Texture coordinate (0..1)
-//     double wallX = (side == 0) ? posY + perpWallDist * rayDirY
-//                                : posX + perpWallDist * rayDirX;
-//     wallX -= floor(wallX);
-
-//     // Fill ray struct
-//     ray.distance = perpWallDist * TILE_SIZE; // convert back to pixels
-//     ray.side = side;
-//     ray.mapX = mapX;
-//     ray.mapY = mapY;
-//     ray.wallX = wallX;
-
-//     return ray;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// t_rayhit cast_ray(t_game *game, double ray_angle)
-// {
-//     t_rayhit hit;
 //     double ray_x = game->player->player_x;
 //     double ray_y = game->player->player_y;
-//     double step_size = 1.0;
+//     double step_size = 1; // Small step for smooth ray
 //     double step_x = cos(ray_angle) * step_size;
 //     double step_y = sin(ray_angle) * step_size;
-
-//     hit.distance = 1e30;
-//     hit.hitX = ray_x;
-//     hit.hitY = ray_y;
-//     hit.side = -1;
-
 //     while (1)
 //     {
 //         int map_x = (int)(ray_x / TILE_SIZE);
 //         int map_y = (int)(ray_y / TILE_SIZE);
 
-//         // stop if outside map
 //         if (map_y < 0 || map_y >= game->map_height || map_x < 0 || map_x >= game->map_width)
-//             break;
-
-//         // stop if hit wall
-//         if (game->map[map_y][map_x] == '1')
 //         {
-//             double dx = ray_x - game->player->player_x;
-//             double dy = ray_y - game->player->player_y;
-//             hit.distance = sqrt(dx * dx + dy * dy);
-//             hit.hitX = ray_x;
-//             hit.hitY = ray_y;
+//             // hit->distance = 1e30;
+//             // return (hit);
 //             break;
 //         }
+
+//         if (game->map[map_y][map_x] == '1')
+//         {
+
+        
+//             break;
+//         }
+
+        
+//         my_img_buffer(game, (int)ray_x, (int)ray_y, 0xFF0000);
 
 //         ray_x += step_x;
 //         ray_y += step_y;
 //     }
-//     return hit;
+//     return ;
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void cast_ray(t_game *game, double ray_angle)
-{
-    double ray_x = game->player->player_x;
-    double ray_y = game->player->player_y;
-    double step_size = 1; // Small step for smooth ray
-    double step_x = cos(ray_angle) * step_size;
-    double step_y = sin(ray_angle) * step_size;
-    while (1)
-    {
-        int map_x = (int)(ray_x / TILE_SIZE);
-        int map_y = (int)(ray_y / TILE_SIZE);
-
-        if (map_y < 0 || map_y >= game->map_height || map_x < 0 || map_x >= game->map_width)
-        {
-            // hit->distance = 1e30;
-            // return (hit);
-            break;
-        }
-
-        if (game->map[map_y][map_x] == '1')
-        {
-
-        
-            break;
-        }
-
-        
-        my_img_buffer(game, (int)ray_x, (int)ray_y, 0xFF0000);
-
-        ray_x += step_x;
-        ray_y += step_y;
-    }
-    return ;
-}
 
 
 // test ;; 
