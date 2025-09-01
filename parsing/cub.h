@@ -17,12 +17,25 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-//#include "mlx.h" // for imac 
-#include "../minilibx-linux/mlx.h"
+#include "mlx.h" // for imac 
+// #include "../minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdbool.h>
 
 
+
+
+typedef struct s_texturs
+{
+	void	*img;
+	char	*data;
+	int 	bit_p_pixle;
+	int 	line_len;
+	int 	endain;
+	int		width;
+	int 	height;
+
+} t_texturs ;
 
 typedef struct s_rayhit
 {
@@ -30,6 +43,8 @@ typedef struct s_rayhit
     int side;     // 0 = x-side, 1 = y-side
     int mapX;
     int mapY;
+	int start;
+	int  end;
 	double wallX; 
 	
 } t_rayhit;
@@ -79,6 +94,7 @@ typedef struct s_game
 	t_color	ceiling_rgb;
 	t_img   *img_buffer;
 	t_player	*player;
+	t_texturs texturs[4];
 	int     win_width;
 	int     win_height;
 	void    *mlx;
@@ -95,18 +111,18 @@ typedef struct s_game
 
 
 
-#define TILE_SIZE 32
-#define ROTATE_SPEED 0.5 
-// #define ROTATE_SPEED 10 * (3.14 / 180);
+#define TILE_SIZE 64
+// #define ROTATE_SPEED 0.5 
+#define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 30
 // for imac !!!
-// #define KEY_ESC  53
-// #define KEY_W       13
-// #define KEY_A       0
-// #define KEY_S       1
-// #define KEY_D       2
-// #define KEY_LEFT    123
-// #define KEY_RIGHT   124
+#define KEY_ESC  53
+#define KEY_W       13
+#define KEY_A       0
+#define KEY_S       1
+#define KEY_D       2
+#define KEY_LEFT    123
+#define KEY_RIGHT   124
 
 // for windows!!
 // #define KEY_ESC  53
@@ -119,13 +135,13 @@ typedef struct s_game
 
 
 // for linux 
-# define KEY_ESC     65307  // Escape
-# define KEY_W       119    // W
-# define KEY_A       97     // A
-# define KEY_S       115    // S
-# define KEY_D       100    // D
-# define KEY_LEFT    65361  // Left arrow
-# define KEY_RIGHT   65363
+// # define KEY_ESC     65307  // Escape
+// # define KEY_W       119    // W
+// # define KEY_A       97     // A
+// # define KEY_S       115    // S
+// # define KEY_D       100    // D
+// # define KEY_LEFT    65361  // Left arrow
+// # define KEY_RIGHT   65363
 
 
 #define FOV  (M_PI / 3)
@@ -154,21 +170,26 @@ void    put_pxls(t_game *game);
 int render_map(void *parm);
 int redraw(void *param); 
 void init_game_graphics(t_game *game);
-void check_move(t_game *game, int x, int y);
+void check_move(t_game *game, double new_x, double new_y);
 int     handle_key(int keycode, t_game *game);
 void init_player_angle(t_game *game);
+void draw_squer(t_game *game, int p_x , int p_y, int color);
 // void renader_rays(t_game *game);
 void my_img_buffer(t_game *game, int x, int y, int color);
 
-// t_rayhit cast_ray(t_game *game, double ray_angle);
+t_rayhit cast_ray(t_game *game, double ray_angle);
 
 void renader_rays(t_game *game);
 
+void load_texturs(t_game *game);
+
+void draw_texturs(t_game *game, int x, int end,  int start,t_rayhit *hit, double rayAngle);
+int get_texturs_color(t_texturs *tex, int x, int y);
+void load_texturs(t_game *game);
 
 
 // 2d map !!!
-void	cast_ray(t_game *game, double ray_angle);
-// void cast_ray(t_game *game, double ray_angle);
+// int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);
 // void render_3d(t_game *game);
 
 

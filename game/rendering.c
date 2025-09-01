@@ -22,7 +22,7 @@ void put_window(t_game *game)
     if (!game->mlx)
         exit(1);  // free befor the exit just for later !!! 
     
-    printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
+    // printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
     game->window = mlx_new_window(game->mlx, game->win_width, game->win_height, "cub3D");
 
     // exit(1);
@@ -45,9 +45,9 @@ void my_img_buffer(t_game *game, int x, int y, int color)
         return;
     }
 
-    
     pixel_buff = game->img_buffer->img_p_data + ( y * (game->img_buffer->line_len) + x * (game->img_buffer->bit_p_pixle / 8));
     *(unsigned int *)pixel_buff = color;
+
 }
 
 
@@ -69,25 +69,28 @@ void draw_squer(t_game *game, int p_x , int p_y, int color)
     }
 }
 // for test !!!
-void draw_circle(t_game *game, int cx, int cy, int radius, int color)
-{
-    int x;
-    int y;
-    int dx;
-    int dy;
+// void draw_circle(t_game *game, int cx, int cy, int radius, int color)
+// {
+//     int x;
+//     int y;
+//     int dx;
+//     int dy;
 
-    for (y = -radius; y <= radius; y++)
-    {
-        for (x = -radius; x <= radius; x++)
-        {
-            dx = cx + x;
-            dy = cy + y;
-            if (x * x + y * y <= radius * radius)
-                my_img_buffer(game, dx, dy, color);
-        }
-    }
-}
+//     for (y = -radius; y <= radius; y++)
+//     {
+//         for (x = -radius; x <= radius; x++)
+//         {
+//             dx = cx + x;
+//             dy = cy + y;
+//             if (x * x + y * y <= radius * radius)
+//                 my_img_buffer(game, dx, dy, color);
+//         }
+//     }
+// }
 ///
+
+
+
 
 
 // whent this for the bounse  >>> for the minimap in the top a hamza 
@@ -113,8 +116,8 @@ void put_pxls(t_game *game)
                 draw_squer(game, draw_x, draw_y, 0xFFFFFF);
             else if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
             {
-                game->player->player_x = y * TILE_SIZE ; 
-                game->player->player_y = x * TILE_SIZE ; 
+                game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
+                game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
 
                 game->map[x][y] = '0'; 
                 draw_squer(game, draw_x, draw_y, 0x800080);
@@ -126,8 +129,9 @@ void put_pxls(t_game *game)
         x++;
         
     }
-    // draw_squer(the same parm /!\) !!!!!
-    draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
+    // draw_squer(the same parm /!\ ) !!!!!
+    
+    // draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
     
     return ; 
 }
@@ -192,24 +196,76 @@ int render_map(void *parm)
 }
 
 
-void check_move(t_game *game, int new_x, int new_y)
+int is_wall(t_game *game, double new_x, double new_y)
 {
     int map_x;
     int map_y;
 
-    
-    map_x = new_x / TILE_SIZE;
-    map_y = new_y / TILE_SIZE;
 
-    if (map_x < 0 || map_y < 0 || map_y >= game->map_height || map_x >= game->map_width)
-        return;
-
+    map_x = (int)( new_x / TILE_SIZE );
+    map_y = (int) ( new_y / TILE_SIZE );
+    if (map_x < 0 || map_y < 0 || map_x >= game->map_width || map_y >= game->map_height)
+        return (1);
     if (game->map[map_y][map_x] == '1')
-        return;
+        return (1);
+    return (0);
+}
 
-    game->player->player_x = new_x;
-    game->player->player_y = new_y;
+int can_move(t_game *game,  double new_x, double new_y)
+{
+    int p_x;
+    int p_y;
+    int n_x;
+    int n_y;
+    double radius;
 
+    radius = 3.0;
+    p_x = (int)(game->player->player_x / TILE_SIZE);
+    p_y = (int)(game->player->player_y / TILE_SIZE);
+    n_x = (int)(new_x / TILE_SIZE);
+    n_y = (int)(new_y / TILE_SIZE);
+
+
+    if (is_wall(game, new_x, new_y))
+        return (0);
+    if (is_wall(game, new_x - radius, new_y - radius))
+        return (0);
+    if (is_wall(game, new_x + radius, new_y - radius))
+        return (0);
+    if (is_wall(game, new_x - radius, new_y + radius))
+        return (0);
+    if (is_wall(game, new_x + radius, new_y + radius))
+        return (0);
+    if (is_wall(game, new_x , new_y - radius))
+        return (0);
+    if (is_wall(game, new_x , new_y + radius))
+        return (0);
+    if (is_wall(game, new_x - radius, new_y ))
+        return (0);
+    if (is_wall(game, new_x + radius, new_y ))
+        return (0);
+
+    if (n_x != p_x && n_y != p_y)
+    {
+         if (is_wall(game, game->player->player_x, new_y) || is_wall(game, new_x, game->player->player_y))
+         {
+            return (0);
+         }
+    }
+
+    return (1);
+
+}
+
+
+void check_move(t_game *game, double new_x, double new_y)
+{
+    if (can_move(game, new_x, new_y))
+    {
+        game->player->player_x = new_x;
+        game->player->player_y = new_y;
+    }
+    
     render_map(game);
 }
 
@@ -217,8 +273,8 @@ void check_move(t_game *game, int new_x, int new_y)
 int handle_key(int keycode, t_game *game)
 {
 
-    int new_x;
-    int new_y;
+    double new_x;
+    double new_y;
 
     new_x = game->player->player_x;
     new_y = game->player->player_y;

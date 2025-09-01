@@ -1,12 +1,12 @@
-NO ./path_to_the_north_texture....
-SO ./path_to_the_south_texture....
-F ,0,0,10
-WE ./path_to_the_west_texture....
-EA ./path_to_the_east_texture....
-C       ,225,30,0
+NO  /mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm
+SO  /mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm
+F   0,0,10
+WE  /mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm
+EA  /mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm
+C   225,30,0
 
         11111111111111111111111111
-        100000000011000000000000N01
+        100000000011000000000000001
         101100000111000000000000111
         1001000000000000000000001
 111111111011000001110000000000001
@@ -15,7 +15,7 @@ C       ,225,30,0
 
 
 11110111111111011100000010001
-11110111111111011101010010001
+11110111111111S11101010010001
 11000000110101011100000010001
 10000000000000101100000010001
 10000000000100001101010010001
