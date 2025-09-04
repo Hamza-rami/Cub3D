@@ -99,54 +99,38 @@ int parse_texture(char *filename, t_game *game)
         }
         if (!ft_strncmp(line, "NO ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid NO line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
-                path++;
-            game->no = ft_strdup(path);
-            // game->no = ft_strdup(split[1]);
-            // free_split(split);
+            split = ft_split(line, ' ');
+            if (!split[0] || !split[1] || split[2])
+                 return (printf("Error: invalid NO line format\n"), free_split(split), 0);
+            game->no = ft_strdup(split[1]);
+            free_split(split);
             has_no++;
         }
         else if (!ft_strncmp(line, "SO ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid SO line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
-                path++;
-            game->so = ft_strdup(path);
-            // game->so = ft_strdup(split[1]);
-            // free_split(split);
+            split = ft_split(line, ' ');
+            if (!split[0] || !split[1] || split[2])
+                 return (printf("Error: invalid SO line format\n"), free_split(split), 0);
+            game->so = ft_strdup(split[1]);
+            free_split(split);
             has_so++;
         }
         else if (!ft_strncmp(line, "WE ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid WE line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
-                path++;
-            game->we = ft_strdup(path);
-            // game->we = ft_strdup(split[1]);
-            // free_split(split);
+            split = ft_split(line, ' ');
+            if (!split[0] || !split[1] || split[2])
+                 return (printf("Error: invalid WE line format\n"), free_split(split), 0);
+            game->we = ft_strdup(split[1]);
+            free_split(split);
             has_we++;
         }
         else if (!ft_strncmp(line, "EA ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid EA line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
-                path++;
-            game->ea = ft_strdup(path);
-            // game->ea = ft_strdup(split[1]);
-            // free_split(split);
+            split = ft_split(line, ' ');
+            if (!split[0] || !split[1] || split[2])
+                 return (printf("Error: invalid EA line format\n"), free_split(split), 0);
+            game->ea = ft_strdup(split[1]);
+            free_split(split);
             has_ea++;
         }
         else if (!ft_strncmp(line, "F ", 2))

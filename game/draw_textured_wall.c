@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              #+#  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-30 15:43:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025-08-30 15:43:33 by yhajji           ###   ########.fr       */
+/*   Created: 2025/08/30 15:43:33 by yhajji            #+#    #+#             */
+/*   Updated: 2025/09/02 12:55:49 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../parsing/cub.h"
-
 
 
 void load_texturs(t_game *game)
@@ -22,32 +21,32 @@ void load_texturs(t_game *game)
 
 
 
-    // texturs[0] = game->no;
-    // texturs[1] = game->so;
-    // texturs[2] = game->we;
-    // texturs[3] = game->ea;
+    texturs[0] = game->no;
+    texturs[1] = game->so;
+    texturs[2] = game->we;
+    texturs[3] = game->ea;
 
-    texturs[0] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall2.xpm";
-    texturs[1] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall2.xpm";
-    texturs[2] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm";
-    texturs[3] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm";
+    // texturs[0] = "/mnt/homes/hrami/Desktop/Cub3D/texters/wall2.xpm";
+    // texturs[1] = "/mnt/homes/hrami/Desktop/Cub3D/texters/wall2.xpm";
+    // texturs[2] = "/mnt/homes/hrami/Desktop/Cub3D/texters/wall.xpm";
+    // texturs[3] = "/mnt/homes/hrami/Desktop/Cub3D/texters/wall.xpm";
 
     // // printf("Texture paths:\n");
     // printf("NO: %s\n", texturs[0]);
     // printf("SO: %s\n", texturs[1]); 
     // printf("WE: %s\n", texturs[2]);
     // printf("EA: %s\n", texturs[3]);
-    // // printf("%s%s%s%s", game->no, game->so, game->we, game->ea );
+    // printf("--%s\n--%s\n--%s\n--%s", texturs[0], texturs[1], texturs[2], texturs[3] );
     i = 0;
     while (i < 4)
     {
         // printf("Loading texture %d...\n", i);
         // printf("MLX pointer: %p\n", game->mlx); // Check again
-        // printf("Texture path: %s\n", texturs[i]); 
+        // printf("Texture path: %s\n", texturs[i]);
         game->texturs[i].img = mlx_xpm_file_to_image(game->mlx, texturs[i], &game->texturs[i].width, &game->texturs[i].height);  
         if (!game->texturs[i].img)
         {
-            printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
+            printf("0\n");
             // printf("sjhbvjdshbv\n");
             exit(1); // free all before exiting 
         }

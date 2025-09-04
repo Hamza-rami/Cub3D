@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/22 05:20:01 by hrami            ###   ########.fr       */
+/*   Updated: 2025/09/03 19:45:48 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,35 @@ void map_staf(t_game *game)
     return;
 }
 
+char *skip_newline(char *str)
+{
+    int i = 0;
+    char *new;
+
+    while (str[i] && str[i] != '\n')
+        i++;
+    new = malloc(i + 1);
+    if (!new)
+        return (NULL);
+    i = 0;
+    while (str[i] && str[i] != '\n')
+    {
+        new[i] = str[i];
+        i++;
+    }
+    new[i] = '\0';
+    return (new);
+}
+
+
+void texturs_newline(t_game *game)
+{
+    game->no = skip_newline(game->no);
+    game->ea = skip_newline(game->ea);
+    game->so = skip_newline(game->so);
+    game->we = skip_newline(game->we);
+}
+
 int main(int ac, char *av[])
 {
     t_game  *game;
@@ -60,7 +89,7 @@ int main(int ac, char *av[])
         return (1);
     if (!is_map_closed(game))
         return (1);
-    
+    texturs_newline(game);
     put_window(game);
     init_player_angle(game);
     load_texturs(game);
