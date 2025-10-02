@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              #+#  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-30 15:43:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025-08-30 15:43:33 by yhajji           ###   ########.fr       */
+/*   Created: 2025/08/30 15:43:33 by yhajji            #+#    #+#             */
+/*   Updated: 2025/10/01 14:31:05 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,29 @@ void load_texturs(t_game *game)
     char *texturs[4];
     int i;
 
+    texturs[0] = skip_newline(game->no);
+    texturs[1] = skip_newline(game->so);
+    texturs[2] = skip_newline(game->we);
+    texturs[3] = skip_newline(game->ea);
 
+    // texturs[0] = "../texters/wall2.xpm";
+    // texturs[1] = "../texters/wall2.xpm";
+    // texturs[2] = "../texters/wall.xpm";
+    // texturs[3] = "../texters/wall.xpm";
 
-    // texturs[0] = game->no;
-    // texturs[1] = game->so;
-    // texturs[2] = game->we;
-    // texturs[3] = game->ea;
-
-    texturs[0] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall2.xpm";
-    texturs[1] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall2.xpm";
-    texturs[2] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm";
-    texturs[3] = "/mnt/homes/yhajji/Desktop/Cub3D/texters/wall.xpm";
-
-    // // printf("Texture paths:\n");
-    // printf("NO: %s\n", texturs[0]);
-    // printf("SO: %s\n", texturs[1]); 
-    // printf("WE: %s\n", texturs[2]);
-    // printf("EA: %s\n", texturs[3]);
-    // // printf("%s%s%s%s", game->no, game->so, game->we, game->ea );
     i = 0;
     while (i < 4)
     {
-        // printf("Loading texture %d...\n", i);
-        // printf("MLX pointer: %p\n", game->mlx); // Check again
-        // printf("Texture path: %s\n", texturs[i]); 
         game->texturs[i].img = mlx_xpm_file_to_image(game->mlx, texturs[i], &game->texturs[i].width, &game->texturs[i].height);  
         if (!game->texturs[i].img)
         {
             printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
-            // printf("sjhbvjdshbv\n");
             exit(1); // free all before exiting 
         }
         game->texturs[i].data = mlx_get_data_addr(game->texturs[i].img, &game->texturs[i].bit_p_pixle, &game->texturs[i].line_len, &game->texturs[i].endain);
         i++;
     }
 }
-
 
 int get_texturs_color(t_texturs *tex, int x, int y)
 {
@@ -75,8 +62,6 @@ int get_texturs_color(t_texturs *tex, int x, int y)
     return (color);
 }
 
-
-
 void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, double rayAngle)
 {
 
@@ -86,7 +71,7 @@ void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, doubl
     double wall_x;
     int tex_x;
     double step;
-    double tex_pos;
+    double tex_pos = 0.0;
     int y;
     int tex_y;
     int color;
@@ -115,8 +100,13 @@ void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, doubl
     wall_x = hit->wallX;
 
     tex_x  = (int)(wall_x * (double)game->texturs[tex_num].width );
-    if ((hit->side == 0 && ray_dir_x > 0) || (hit->side == 1 && ray_dir_y < 0))
+
+
+    if (hit->side == 0 && ray_dir_x > 0)
         tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);
+    
+    if (hit->side == 1 && ray_dir_y < 0)
+        tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);  
 
     if (tex_x < 0)
         tex_x = 0;
@@ -129,13 +119,13 @@ void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, doubl
         return;
     step = 1.0 * ( game->texturs[tex_num].height / (double)(line_h));
 
-    tex_pos = ( start - (game->win_height / 2.0) + (line_h) / 2.0 ) * step;
+    // tex_pos = ( start - (game->win_height / 2.0) + (line_h) / 2.0 ) * step;
 
     if (tex_pos < 0)
         tex_pos = 0;
 
 
-
+    tex_pos = 0.0;
 
     y = start;
     while (y < end)
@@ -152,4 +142,3 @@ void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, doubl
         y++;
     }
 }
-

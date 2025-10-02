@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/27 08:06:44 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:13:45 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include "mlx.h" // for imac 
-// #include "../minilibx-linux/mlx.h"
+// #include "mlx.h" // for imac 
+#include "../minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdbool.h>
 
@@ -76,8 +76,6 @@ typedef struct s_player
 	float   player_y;
 	float dir_x;
     float dir_y;
-    float plane_x;
-    float plane_y;
 	float	player_angle; // Player direction in radians
 } t_player;
 
@@ -116,13 +114,13 @@ typedef struct s_game
 #define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 30
 // for imac !!!
-#define KEY_ESC  53
-#define KEY_W       13
-#define KEY_A       0
-#define KEY_S       1
-#define KEY_D       2
-#define KEY_LEFT    123
-#define KEY_RIGHT   124
+// #define KEY_ESC  53
+// #define KEY_W       13
+// #define KEY_A       0
+// #define KEY_S       1
+// #define KEY_D       2
+// #define KEY_LEFT    123
+// #define KEY_RIGHT   124
 
 // for windows!!
 // #define KEY_ESC  53
@@ -135,13 +133,13 @@ typedef struct s_game
 
 
 // for linux 
-// # define KEY_ESC     65307  // Escape
-// # define KEY_W       119    // W
-// # define KEY_A       97     // A
-// # define KEY_S       115    // S
-// # define KEY_D       100    // D
-// # define KEY_LEFT    65361  // Left arrow
-// # define KEY_RIGHT   65363
+# define KEY_ESC     65307  // Escape
+# define KEY_W       119    // W
+# define KEY_A       97     // A
+# define KEY_S       115    // S
+# define KEY_D       100    // D
+# define KEY_LEFT    65361  // Left arrow
+# define KEY_RIGHT   65363
 
 
 #define FOV  (M_PI / 3)
@@ -186,7 +184,7 @@ void load_texturs(t_game *game);
 void draw_texturs(t_game *game, int x, int end,  int start,t_rayhit *hit, double rayAngle);
 int get_texturs_color(t_texturs *tex, int x, int y);
 void load_texturs(t_game *game);
-
+char *skip_newline(char *str);
 
 // 2d map !!!
 // int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);

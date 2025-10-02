@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 05:03:51 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/27 08:07:02 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:14:16 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,41 +53,24 @@ void draw_vertical_line(t_game *game, int x, int start, int end , int color)
     
 }
 
-
-
-
-
 void renader_rays(t_game *game)
 {
     double ray_angle = game->player->player_angle - (FOV / 2);
     int col = 0;
     double dist_proj_plane = (game->win_width / 2) / tan(FOV / 2);
-
     while (col < game->win_width)
     {
         t_rayhit hit = cast_ray(game, ray_angle);
-
-        
-        double corrected_dist = hit.distance ;
-        
-        
-        if (corrected_dist < 0.1) 
-            corrected_dist = 0.1;
-
-       
+        double corrected_dist = hit.distance * cos(ray_angle - game->player->player_angle);
+        if (corrected_dist < 0.0001) 
+            corrected_dist = 0.0001;
         int wall_height = (int)(((TILE_SIZE * dist_proj_plane) / corrected_dist));
-
         int start = (game->win_height / 2) - (wall_height / 2);
         int end = (game->win_height / 2) + (wall_height / 2);
-
-        
-
         if (start < 0) 
             start = 0;
         if (end >= game->win_height) 
             end = game->win_height - 1;
-
-        
         // int wall_color;
         // if (hit.side == 0)
         //     wall_color = 0xFF0000; // East/West walls (red)
@@ -97,10 +80,8 @@ void renader_rays(t_game *game)
         hit.end = end;
         draw_vertical_line(game, col, 0, start, 0x87CEEB);      // sky
         draw_vertical_line(game, col, end, game->win_height, game->floor_rgb.value); // floor
-        
         if (start < end)
             draw_texturs(game, col, end, start, &hit, ray_angle);    // wall
-
         ray_angle += (FOV / game->win_width);
         col++;
     }

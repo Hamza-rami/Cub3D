@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/22 05:20:01 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/01 14:27:04 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,27 @@ void map_staf(t_game *game)
     return;
 }
 
+char *skip_newline(char *str)
+{
+    int i = 0;
+    char *new;
+
+    while (str[i] && str[i] != '\n')
+        i++;
+    new = malloc(i + 1);
+    if (!new)
+        return (NULL);
+    i = 0;
+    while (str[i] && str[i] != '\n')
+    {
+        new[i] = str[i];
+        i++;
+    }
+    new[i] = '\0';
+    return (new);
+}
+
+
 int main(int ac, char *av[])
 {
     t_game  *game;
@@ -44,7 +65,7 @@ int main(int ac, char *av[])
         return (1);
     game->img_buffer = malloc(sizeof(t_img));
     if (!game->img_buffer)
-        exit(1); // free the after exit !!!!!!
+        exit(1);
     game->img_buffer->img = NULL;
     game->img_buffer->img_p_data = NULL;
     game->player = malloc(sizeof(t_player));

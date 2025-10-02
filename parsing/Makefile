@@ -7,7 +7,7 @@ INC = cub.h
 OBJS = ${SRC:.c=.o}
 CC = cc -Wall -Werror -Wextra #-fsanitize=address
 RM = rm -f
-LDFLAGS = -lmlx -framework OpenGL -framework AppKit
+LDFLAGS = -L../minilibx-linux -lmlx -lXext -lX11 -lm
 
 # for windows 
 # MLX_DIR   = ../minilibx-linux  # Replace with actual path

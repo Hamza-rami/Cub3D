@@ -186,6 +186,7 @@ void store_map(char *file, t_game *game)
     int count = 0;
     int fd;
     int i = 0;
+    int flag = 0;
 
     fd = open(file, O_RDONLY);
     if (fd < 0)
@@ -203,12 +204,18 @@ void store_map(char *file, t_game *game)
     {
         if (line[0] == '\n')
         {
+            if (flag == 1)
+                flag = 2;
             free(line);
             line = get_next_line(fd);
             continue ;
         }
         if (count > 5)
         {
+            if (flag == 2)
+                exit(0);
+            if (line[0] == ' ' || line[0] ==  '1' || line[0] == '0')
+                flag = 1;
             game->map[i] = ft_strdup(line);
             i++;
         }

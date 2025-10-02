@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/08/27 02:26:49 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:19:25 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void put_window(t_game *game)
 {
-
     game->win_width = ft_max_len(game->map) * TILE_SIZE;
     game->win_height = (game->count - 6) * TILE_SIZE;
-
     game->mlx = mlx_init();
     if (!game->mlx)
         exit(1);  // free befor the exit just for later !!! 
@@ -145,7 +143,6 @@ void init_game_graphics(t_game *game)
         printf("mlx_new_image failed\n");
         exit(1);
     }
-    
     game->img_buffer->img_p_data = mlx_get_data_addr(game->img_buffer->img, 
                                                 &game->img_buffer->bit_p_pixle, 
                                                 &game->img_buffer->line_len, 
@@ -155,34 +152,33 @@ void init_game_graphics(t_game *game)
         printf("mlx_get_data_addr failed\n");
         exit(1);
     }
-
     render_map(game);
 }
 
-void clear_image(t_game *game)
-{
-    int x, y;
+// void clear_image(t_game *game)
+// {
+//     int x, y;
     
-    y = 0;
+//     y = 0;
     
-    while (y < game->win_height)
-    {
-        x = 0;
-        while(x < game->win_width)
-        {
-            my_img_buffer(game, x, y, 0x000000);
-            x++;
-        }
-        y++;
-    }
-}
+//     while (y < game->win_height)
+//     {
+//         x = 0;
+//         while(x < game->win_width)
+//         {
+//             my_img_buffer(game, x, y, 0x000000);
+//             x++;
+//         }
+//         y++;
+//     }
+// }
 
 int render_map(void *parm)
 {
 
     t_game *game = (t_game *)parm;
 
-    clear_image(game);
+    // clear_image(game);
 
     put_pxls(game);
     
