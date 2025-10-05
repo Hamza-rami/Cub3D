@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 15:43:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/01 14:31:05 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/05 19:15:56 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,80 +62,135 @@ int get_texturs_color(t_texturs *tex, int x, int y)
     return (color);
 }
 
-void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, double rayAngle)
-{
+// void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, double rayAngle)
+// {
 
-    int tex_num;
-    double ray_dir_x;
-    double ray_dir_y;
-    double wall_x;
-    int tex_x;
-    double step;
-    double tex_pos = 0.0;
-    int y;
-    int tex_y;
-    int color;
-    int line_h;
+//     int tex_num;
+//     double ray_dir_x;
+//     double ray_dir_y;
+//     double wall_x;
+//     int tex_x;
+//     double step;
+//     double tex_pos = 0.0;
+//     int y;
+//     int tex_y;
+//     int color;
+//     int line_h;
 
 
-    ray_dir_x = cos(rayAngle);
-    ray_dir_y = sin(rayAngle);
-    if (hit->side == 0)
-    {
-        if (ray_dir_x > 0)
-            tex_num = 3; //east
-        else 
-            tex_num = 2; // west
-    }
-    else 
-    {
-        if (ray_dir_y > 0)
-            tex_num = 1; // south
-        else 
-            tex_num = 0; //north
-    }
+//     ray_dir_x = cos(rayAngle);
+//     ray_dir_y = sin(rayAngle);
+//     if (hit->side == 0)
+//     {
+//         if (ray_dir_x > 0)
+//             tex_num = 3; //east
+//         else 
+//             tex_num = 2; // west
+//     }
+//     else 
+//     {
+//         if (ray_dir_y > 0)
+//             tex_num = 1; // south
+//         else 
+//             tex_num = 0; //north
+//     }
 
     
+
+//     wall_x = hit->wallX;
+
+//     tex_x  = (int)(wall_x * (double)game->texturs[tex_num].width );
+
+
+//     // if (hit->side == 0 && ray_dir_x < 0)
+//     //     tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);
+    
+//     // if (hit->side == 1 && ray_dir_y > 0)
+//     //     tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);  
+//     if ((hit->side == 0 && ray_dir_x <  0) || (hit->side == 1 && ray_dir_y > 0))
+//         tex_x = game->texturs[tex_num].width - tex_x - 1;
+
+//     if (tex_x < 0)
+//         tex_x = 0;
+//     if (tex_x >= game->texturs[tex_num].width)
+//         tex_x = game->texturs[tex_num].width - 1;
+   
+//     line_h  = end - start;
+
+//     if (line_h <= 0)
+//         return;
+
+//     step = (double)game->texturs[tex_num].height / (double)line_h;
+
+//     tex_pos = ( start - (game->win_height / 2.0) + (line_h) / 2.0 ) * step;
+
+//     if (tex_pos < 0.0)
+//         tex_pos = 0.0;
+
+
+//     // tex_pos = 0.0;
+
+//     y = start;
+//     while (y < end)
+//     {
+//         tex_y = floor(tex_pos);
+//         if (tex_y < 0)
+//             tex_y  = 0;
+//         if (tex_y >= game->texturs[tex_num].height)
+//             tex_y = game->texturs[tex_num].height - 1;
+        
+//         color = get_texturs_color(&game->texturs[tex_num], tex_x, tex_y);
+//         my_img_buffer(game, x, y, color);
+//         tex_pos += step;
+//         y++;
+//     }
+// }
+
+void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double rayAngle)
+{
+    int tex_num;
+    double ray_dir_x = cos(rayAngle);
+    double ray_dir_y = sin(rayAngle);
+    double wall_x;
+    int tex_x, tex_y;
+    double step, tex_pos;
+    int y, color, line_h;
+
+    // Texture selection
+    if (hit->side == 0) {
+        tex_num = (ray_dir_x > 0) ? 3 : 2; // east or west
+    } else {
+        tex_num = (ray_dir_y > 0) ? 1 : 0; // south or north
+    }
 
     wall_x = hit->wallX;
+    tex_x = (int)(wall_x * (double)game->texturs[tex_num].width);
 
-    tex_x  = (int)(wall_x * (double)game->texturs[tex_num].width );
-
-
-    if (hit->side == 0 && ray_dir_x > 0)
-        tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);
-    
-    if (hit->side == 1 && ray_dir_y < 0)
-        tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);  
+    // Corrected flipping
+    if ((hit->side == 0 && ray_dir_x > 0) || (hit->side == 1 && ray_dir_y < 0))
+        tex_x = game->texturs[tex_num].width - tex_x - 1;
 
     if (tex_x < 0)
         tex_x = 0;
     if (tex_x >= game->texturs[tex_num].width)
         tex_x = game->texturs[tex_num].width - 1;
-   
-    line_h  = end - start;
 
+    line_h = end - start;
     if (line_h <= 0)
         return;
-    step = 1.0 * ( game->texturs[tex_num].height / (double)(line_h));
 
-    // tex_pos = ( start - (game->win_height / 2.0) + (line_h) / 2.0 ) * step;
-
+    step = (double)game->texturs[tex_num].height / (double)line_h;
+    tex_pos = (start - (game->win_height / 2.0) + (line_h / 2.0)) * step;
     if (tex_pos < 0)
         tex_pos = 0;
 
-
-    tex_pos = 0.0;
-
     y = start;
-    while (y < end)
-    {
-        tex_y = (int)tex_pos;
+    while (y < end) {
+        tex_y = floor(tex_pos);
         if (tex_y < 0)
             tex_y  = 0;
         if (tex_y >= game->texturs[tex_num].height)
-            tex_y = game->texturs[tex_num].height - 1;
-        
+            tex_y = game->texturs[tex_num].height - 1; // Repeating (assumes power of 2)
         color = get_texturs_color(&game->texturs[tex_num], tex_x, tex_y);
         my_img_buffer(game, x, y, color);
         tex_pos += step;

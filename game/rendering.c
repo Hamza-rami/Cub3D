@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/01 16:19:25 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/05 19:10:41 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,47 +92,47 @@ void draw_squer(t_game *game, int p_x , int p_y, int color)
 
 
 // whent this for the bounse  >>> for the minimap in the top a hamza 
-void put_pxls(t_game *game)
-{
-    int x;
-    int y;
-    int draw_x;
-    int draw_y;
+// void put_pxls(t_game *game)
+// {
+//     int x;
+//     int y;
+//     int draw_x;
+//     int draw_y;
 
 
-    x = 0;
-    while (game->map[x])
-    {
-        y = 0;
-        while (game->map[x][y])
-        {
-            draw_x = y * TILE_SIZE;
-            draw_y = x * TILE_SIZE;
-            if (game->map[x][y] == '1')
-                draw_squer(game, draw_x, draw_y, 0x333333);
-            else if (game->map[x][y] == '0')
-                draw_squer(game, draw_x, draw_y, 0xFFFFFF);
-            else if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
-            {
-                game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
-                game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
+//     x = 0;
+//     while (game->map[x])
+//     {
+//         y = 0;
+//         while (game->map[x][y])
+//         {
+//             draw_x = y * TILE_SIZE;
+//             draw_y = x * TILE_SIZE;
+//             if (game->map[x][y] == '1')
+//                 draw_squer(game, draw_x, draw_y, 0x333333);
+//             else if (game->map[x][y] == '0')
+//                 draw_squer(game, draw_x, draw_y, 0xFFFFFF);
+//             else if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
+//             {
+//                 game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
+//                 game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
 
-                game->map[x][y] = '0'; 
-                draw_squer(game, draw_x, draw_y, 0x800080);
-            }
-            else 
-                draw_squer(game, draw_x, draw_y, 0x000000);
-           y++; 
-        }
-        x++;
+//                 game->map[x][y] = '0'; 
+//                 draw_squer(game, draw_x, draw_y, 0x800080);
+//             }
+//             else 
+//                 draw_squer(game, draw_x, draw_y, 0x000000);
+//            y++; 
+//         }
+//         x++;
         
-    }
-    // draw_squer(the same parm /!\ ) !!!!!
+//     }
+//     // draw_squer(the same parm /!\ ) !!!!!
     
-    // draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
+//     // draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
     
-    return ; 
-}
+//     return ; 
+// }
 // end (/!\) 
 
 void init_game_graphics(t_game *game)
@@ -152,35 +152,59 @@ void init_game_graphics(t_game *game)
         printf("mlx_get_data_addr failed\n");
         exit(1);
     }
+    init_player_position(game);
     render_map(game);
 }
 
-// void clear_image(t_game *game)
-// {
-//     int x, y;
+void init_player_position(t_game *game)
+{
+    int x = 0;
+    while (game->map[x])
+    {
+        int y = 0;
+        while (game->map[x][y])
+        {
+            if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || 
+                game->map[x][y] == 'E' || game->map[x][y] == 'W')
+            {
+                game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
+                game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
+                game->map[x][y] = '0'; 
+                return; // Exit after finding player
+            }
+            y++; 
+        }
+        x++;
+    }
+}
+
+
+void clear_image(t_game *game)
+{
+    int x, y;
     
-//     y = 0;
+    y = 0;
     
-//     while (y < game->win_height)
-//     {
-//         x = 0;
-//         while(x < game->win_width)
-//         {
-//             my_img_buffer(game, x, y, 0x000000);
-//             x++;
-//         }
-//         y++;
-//     }
-// }
+    while (y < game->win_height)
+    {
+        x = 0;
+        while(x < game->win_width)
+        {
+            my_img_buffer(game, x, y, 0x000000);
+            x++;
+        }
+        y++;
+    }
+}
 
 int render_map(void *parm)
 {
 
     t_game *game = (t_game *)parm;
 
-    // clear_image(game);
+    clear_image(game);
 
-    put_pxls(game);
+    // put_pxls(game);
     
     renader_rays(game);
     
@@ -261,8 +285,6 @@ void check_move(t_game *game, double new_x, double new_y)
         game->player->player_x = new_x;
         game->player->player_y = new_y;
     }
-    
-    render_map(game);
 }
 
 
@@ -274,27 +296,32 @@ int handle_key(int keycode, t_game *game)
 
     new_x = game->player->player_x;
     new_y = game->player->player_y;
+    int moved = 0;
     if (keycode == KEY_ESC)
         exit(0);
     else if (keycode == KEY_W)
     {
         new_x += cos(game->player->player_angle) * MOVE_SPEED ;
         new_y += sin(game->player->player_angle) * MOVE_SPEED ;
+        moved = 1;
     }
     else if (keycode == KEY_S)
     {
         new_y -=  sin(game->player->player_angle) * MOVE_SPEED ;
         new_x -=  cos(game->player->player_angle) * MOVE_SPEED ;
+        moved = 1;
     }
     else if (keycode == KEY_A)
     {
         new_x += cos(game->player->player_angle - (M_PI / 2)) * MOVE_SPEED ;
         new_y += sin(game->player->player_angle - (M_PI / 2)) * MOVE_SPEED ;
+        moved = 1;
     }
     else if (keycode == KEY_D)
     {
         new_x += cos(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
         new_y += sin(game->player->player_angle + (M_PI / 2)) * MOVE_SPEED ;
+        moved = 1;
     }
     if (keycode == KEY_LEFT)
         game->player->player_angle -= ROTATE_SPEED ;
@@ -304,7 +331,21 @@ int handle_key(int keycode, t_game *game)
         game->player->player_angle += 2 * M_PI;
     if (game->player->player_angle >= 2 * M_PI)
         game->player->player_angle -= 2 * M_PI;
-    check_move(game, new_x, new_y);
+    if (moved)
+    {
+        check_move(game, new_x, new_y);
+        
+    }
+    return (0);
+}
+
+
+int  render_loop(void *parms)
+{
+    t_game *game ;
+
+    game =  parms;
+    render_map(game);
     return (0);
 }
 

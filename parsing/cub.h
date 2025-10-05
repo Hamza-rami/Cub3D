@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/04 12:08:15 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/05 19:11:08 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void load_texturs(t_game *game);
 char *skip_newline(char *str);
 
 int  render_loop(void *parms);
-
+void init_player_position(t_game *game);
 
 
 // 2d map !!!
