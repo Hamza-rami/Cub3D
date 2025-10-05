@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/01 16:13:45 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/04 12:08:15 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_texturs
 typedef struct s_rayhit
 {
 	double distance;
+	double perpendicular_dist;
     int side;     // 0 = x-side, 1 = y-side
     int mapX;
     int mapY;
@@ -112,7 +113,9 @@ typedef struct s_game
 #define TILE_SIZE 64
 // #define ROTATE_SPEED 0.5 
 #define ROTATE_SPEED 10 * (3.14 / 180);
-#define MOVE_SPEED 30
+#define MOVE_SPEED 15
+# define WIDTH 1280
+# define HEIGHT 720
 // for imac !!!
 // #define KEY_ESC  53
 // #define KEY_W       13
@@ -186,9 +189,13 @@ int get_texturs_color(t_texturs *tex, int x, int y);
 void load_texturs(t_game *game);
 char *skip_newline(char *str);
 
+int  render_loop(void *parms);
+
+
+
 // 2d map !!!
 // int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);
-// void render_3d(t_game *game);
+// void renader_rays(t_game *game);
 
 
 #endif

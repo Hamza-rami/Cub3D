@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/01 14:27:04 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/04 14:54:54 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int main(int ac, char *av[])
     init_player_angle(game);
     load_texturs(game);
     init_game_graphics(game);
-    mlx_loop_hook(game->mlx, render_map, game);  
+    mlx_loop_hook(game->mlx, render_loop, game);  
     mlx_hook(game->window, 2, 1L << 0, handle_key, game);
     mlx_loop(game->mlx);
     return 0;
