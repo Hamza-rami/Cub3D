@@ -1,11 +1,5 @@
 {
     "files.associations": {
-        "__bit_reference": "c",
-        "__string": "c",
-        "algorithm": "c",
-        "ios": "c",
-        "string": "c",
-        "type_traits": "c",
-        "mlx.h": "c"
+        "cub.h": "c"
     }
 }

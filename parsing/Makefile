@@ -6,16 +6,8 @@ SRC = cub.c parse_file.c ../next_line/get_next_line.c  ../next_line/get_next_lin
 INC = cub.h
 OBJS = ${SRC:.c=.o}
 CC = cc -Wall -Werror -Wextra #-fsanitize=address
-RM = rm -f
+RM = rm -rf
 LDFLAGS = -L../minilibx-linux -lmlx -lXext -lX11 -lm
-
-# for windows 
-# MLX_DIR   = ../minilibx-linux  # Replace with actual path
-# MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
-# CFLAGS    = cc -Wall -Wextra -Werror -I$(MLX_DIR)
-
-# $(NAME): $(OBJS)
-# 	$(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME)
 
 all: ${NAME}
 
