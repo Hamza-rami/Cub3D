@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:41:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/07 10:14:53 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/10 22:02:46 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 void put_window(t_game *game)
 {
-    game->win_width = ft_max_len(game->map) * TILE_SIZE;
-    game->win_height = (game->count - 6) * TILE_SIZE;
-    game->mlx = mlx_init();
-    if (!game->mlx)
-        exit(1);  // free befor the exit just for later !!! 
+    game->win_width = WIDTH ; //ft_max_len(game->map) * TILE_SIZE;
+    game->win_height = HEIGHT ;//(game->count - 6) * TILE_SIZE;
+    // free befor the exit just for later !!! 
     
     // printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
-    game->window = mlx_new_window(game->mlx, game->win_width, game->win_height, "cub3D");
+    game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
 
     // exit(1);
 }
@@ -122,7 +120,10 @@ int render_map(void *parm)
     clear_image(game);    
     renader_rays(game);
     draw_minimap(game);
+    update_weapon_animation(&game->ak_47);
+    
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
+    draw_weapon(game);
     
     return (0);
 }
@@ -209,6 +210,16 @@ int handle_key(int keycode, t_game *game)
     new_x = game->player->player_x;
     new_y = game->player->player_y;
     int moved = 0;
+
+    if (keycode == KEY_R)
+    {
+        if (!game->ak_47.is_animation)
+        {
+            game->ak_47.is_animation = 1;
+            game->ak_47.current_frame = 0;
+            game->ak_47.counter = 0;
+        }
+    }
     if (keycode == KEY_ESC)
     {
         mlx_mouse_show(game->mlx, game->window);

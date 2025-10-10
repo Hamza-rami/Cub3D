@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/06 22:23:43 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/10 22:00:11 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@
 
 
 
+
+
+typedef struct s_weapon
+{
+	void **frames;
+	int toto_frames;
+	int current_frame;
+	int width;
+	int height; 
+	int counter;
+	int frame_delay;
+	int is_animation;
+	
+} t_weapon ;
 
 typedef struct s_texturs
 {
@@ -95,6 +109,7 @@ typedef struct s_game
 	t_img   *img_buffer;
 	t_player	*player;
 	t_texturs texturs[4];
+	t_weapon  ak_47;
 	int     win_width;
 	int     win_height;
 	void    *mlx;
@@ -111,19 +126,22 @@ typedef struct s_game
 
 
 #define TILE_SIZE 64
-// #define NUM_RAYS 30 
-#define RAY_COLOR 0xFFFF00
 
-#define NUM_RAYS 60
-#define MINI_TILE 10
-#define MINI_OFFSET_X 10
-#define MINI_OFFSET_Y 10
-#define MINI_SCALE ((double)MINI_TILE / (double)TILE_SIZE)
+// minimap macros 
+
+#define NUM_RAYS 120
+#define MINIMAP_RADIUS 100
+#define MINIMAP_SCALE 0.2
+
+
+
+
 // #define ROTATE_SPEED 0.5 
 #define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 11
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1500
+# define HEIGHT 1020
+#define MINIMAP_SIZE 200 
 
 
 
@@ -135,7 +153,8 @@ typedef struct s_game
 # define KEY_D       100    // D
 # define KEY_LEFT    65361  // Left arrow
 # define KEY_RIGHT   65363
-# define KEY_M		 109	       
+# define KEY_M		 109	
+# define KEY_R		 114       
 
 
 #define FOV  (M_PI / 3)
@@ -169,9 +188,9 @@ void init_player_angle(t_game *game);
 void draw_squer(t_game *game, int p_x , int p_y, int size, int color);
 // void renader_rays(t_game *game);
 void my_img_buffer(t_game *game, int x, int y, int color);
-
 t_rayhit cast_ray(t_game *game, double ray_angle);
-
+char	*ft_itoa(int n);
+char	*ft_strjoin(char *s1, char *s2);
 void renader_rays(t_game *game);
 
 void load_texturs(t_game *game);
@@ -189,8 +208,14 @@ void init_player_position(t_game *game);
 // int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);
 // void renader_rays(t_game *game);
 
-void renader_rays_minimap(t_game *game, int offset_x, int offset_y, double scale);
-void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y, double scale);
+void renader_rays_minimap(t_game *game, int offset_x, int offset_y);
+void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y);
 int mouse_move(int x, int y, t_game *game);
+
+
+void draw_weapon(t_game *game);
+void update_weapon_animation(t_weapon *wea);
+void init_weapon(t_game *game);
+
 
 #endif

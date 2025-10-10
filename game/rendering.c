@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/05 19:10:41 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/08 12:29:01 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void put_window(t_game *game)
 {
-    game->win_width = ft_max_len(game->map) * TILE_SIZE;
-    game->win_height = (game->count - 6) * TILE_SIZE;
+    game->win_width = WIDTH ;
+    game->win_height = HEIGHT ;
     game->mlx = mlx_init();
     if (!game->mlx)
         exit(1);  // free befor the exit just for later !!! 
     
     // printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
-    game->window = mlx_new_window(game->mlx, game->win_width, game->win_height, "cub3D");
+    game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
 
     // exit(1);
 }

@@ -1,5 +1,6 @@
 #include "../parsing/cub.h"
 
+
 static char	*hnadle_eof(char **buffer, char *tmp)
 {
 	char	*line;

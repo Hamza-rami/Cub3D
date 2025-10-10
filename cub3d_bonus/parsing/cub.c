@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/07 10:38:23 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/10 21:32:50 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,16 @@ int main(int ac, char *av[])
     if (!is_map_closed(game))
         return (1);
     
-    put_window(game);
+    game->mlx = mlx_init();
+    if (!game->mlx)
+    {
+        // free 
+        exit(1); 
+    }
+    init_weapon(game);
     init_player_angle(game);
     load_texturs(game);
+    put_window(game);
     init_game_graphics(game);
     mlx_loop_hook(game->mlx, render_loop, game);  
     mlx_hook(game->window, 2, 1L << 0, handle_key, game);

@@ -6,11 +6,34 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:05:49 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/06 20:14:15 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/10 17:52:59 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub.h"
+
+
+
+void draw_thick_pixel(t_game *game, int x, int y, int color, int size)
+{
+    int half;
+    int dy;
+    int dx;
+    
+    
+    half = size / 2;
+    dy = -half;
+    while (dy <= half)
+    {
+        dx = -half;
+        while (dx <= half)
+        {
+           my_img_buffer(game, x + dx, y + dy, color);
+           dx++;
+        }
+        dy++;
+    }    
+}
 
 
 void draw_squer(t_game *game, int p_x , int p_y, int size, int color)
@@ -56,95 +79,175 @@ void draw_circle(t_game *game, int cx, int cy, int radius, int color)
 }
 
 
-void draw_minimap(t_game *game)
+void draw_minimap_circle(t_game *game, int sx , int sy)
 {
     int x;
     int y;
-    int draw_x;
-    int draw_y;
-    int minimap_x;
-    int minimap_y;
-    int offset_x;
-    int offset_y;
-    double scale;
-
     
-
-    minimap_x = game->map_width * MINI_TILE;
-    minimap_y = game->map_height * MINI_TILE;
-    offset_x = MINI_OFFSET_X;
-    offset_y = MINI_OFFSET_Y;
-    scale = MINI_SCALE;
-    x = 0;
-    while ( x < game->map_height)
+    y = -MINIMAP_RADIUS;
+    while (y <= MINIMAP_RADIUS)
     {
-        y = 0;
-        while (y < game->map_width)
+        x = -MINIMAP_RADIUS;
+        while (x <= MINIMAP_RADIUS)
         {
-            draw_x = offset_y +  y * MINI_TILE;
-            draw_y = offset_x + x * MINI_TILE;
-            if (game->map[x][y] == '1')
-                draw_squer(game, draw_x, draw_y, MINI_TILE, 0xFFFFFF);
-            else if ( game->map[x][y] == '0' || game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
-                draw_squer(game, draw_x, draw_y, MINI_TILE , 0x333333);
-           y++; 
+            if (x * x + y * y <= (MINIMAP_RADIUS * MINIMAP_RADIUS))
+                my_img_buffer(game, sx + x, sy + y, 0x222222);
+            x++;
         }
-        x++;
-        
+        y++;
     }
-    int p_x = offset_x + (game->player->player_x * scale) + 0;
-    int p_y = offset_y + (game->player->player_y * scale) + 0;
-    draw_circle(game, p_x, p_y, 5, 0xFF0000);
-    renader_rays_minimap(game, offset_x, offset_y, scale);
-    return ; 
+    
 }
 
+void draw_minimap_map(t_game *game, int sx, int sy)
+{
+    int my;
+    int mx;
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    double tile_x;
+    double tile_y;
+    int draw_x;
+    int draw_y;
+    int i = 0;
+    int j;
+    start_x = (int)(game->player->player_x / TILE_SIZE) - 10;
+    start_y = (int)(game->player->player_y / TILE_SIZE) - 10;
+    end_x = (int)(game->player->player_x / TILE_SIZE) + 10;
+    end_y = (int)(game->player->player_y / TILE_SIZE) + 10;
+    int size = (int)(TILE_SIZE * MINIMAP_SCALE); 
+    my = start_y;
+    if (size <= 0)
+        size = 1;
+    if (start_x < 0)
+        start_x = 0;
+    if (start_y < 0)
+        start_y = 0;
+    if (end_x >= game->map_width)
+        end_x = game->map_width - 1;
+    if (end_y >= game->map_height)
+        end_y = game->map_height - 1;
+    while (my <= end_y)
+    {
+        
+        mx = start_x;
+        while (mx <= end_x)
+        {
+            if (my < 0 || mx < 0 || my >= game->map_height || mx >= game->map_width)
+            {
+                mx++;
+                continue;
+            }
+               
+            tile_x = (mx * TILE_SIZE - game->player->player_x) * MINIMAP_SCALE;
+            tile_y = (my * TILE_SIZE - game->player->player_y) * MINIMAP_SCALE;
+            draw_x = (int)(tile_x) + sx;
+            draw_y = (int)(tile_y) + sy;
+            i = 0;
+            
+            while (i < size)
+            {
+                j = 0;
+                while (j < size)
+                {
+                    int dx = (draw_x + i) - sx;
+                    int dy = (draw_y + j) - sy;
+                    if (dx * dx + dy * dy <= (MINIMAP_RADIUS * MINIMAP_RADIUS))
+                    {
+                        
+                        if (game->map[my][mx] == '1')
+                            my_img_buffer(game, (draw_x + i),( draw_y + j), 0xFFFFFF);
+                        else 
+                            my_img_buffer(game, (draw_x + i), (draw_y + j), 0x333333);
+                    }
+                    j++;
+                }
+                i++;
+            }
+            mx++;
+        }
+        my++; 
+    }
 
+}
 
-void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y, double scale)
+void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y)
 {
     double ray_x = game->player->player_x;
     double ray_y = game->player->player_y;
-    double step_size = 3.0; 
-    double step_x = cos(ray_angle) * step_size;
-    double step_y = sin(ray_angle) * step_size;
-    int mini_x;
-    int mini_y;
+    double step = 5.0;
+    double mini_x ;
+    double mini_y ;
+    int draw_x;
+    int draw_y;
+    int map_x ;
+    int map_y ;
+
     while (1)
     {
-        int map_x = (int)(ray_x / TILE_SIZE);
-        int map_y = (int)(ray_y / TILE_SIZE);
+        map_x = (int)(ray_x / TILE_SIZE);
+        map_y = (int)(ray_y / TILE_SIZE);
 
-        if (map_y < 0 || map_y >= game->map_height || map_x < 0 || map_x >= game->map_width)
+        if (map_x < 0 || map_y < 0 || map_x >= game->map_width || map_y >= game->map_height)
             break;
         if (game->map[map_y][map_x] == '1')
             break;
-        mini_x = offset_x + (int)(ray_x * scale);
-        mini_y = offset_y + (int)(ray_y * scale);
-        my_img_buffer(game, mini_x, mini_y, 0xFF0000);
 
-        ray_x += step_x;
-        ray_y += step_y;
+        mini_x = (ray_x - game->player->player_x) * MINIMAP_SCALE;
+        mini_y = (ray_y - game->player->player_y) * MINIMAP_SCALE;
+
+        draw_x = offset_x + (int)mini_x;
+        draw_y = offset_y + (int)mini_y;
+
+        if ((draw_x - offset_x) * (draw_x - offset_x) + (draw_y - offset_y) * (draw_y - offset_y) > MINIMAP_RADIUS * MINIMAP_RADIUS)
+            break;
+
+        // my_img_buffer(game, draw_x, draw_y, 0xFF0000);
+        draw_thick_pixel(game, draw_x, draw_y, 0xFF0000, 2);
+        ray_x += cos(ray_angle) * step;
+        ray_y += sin(ray_angle) * step;
     }
-    return ;
+ 
 }
-
-
-void renader_rays_minimap(t_game *game, int offset_x, int offset_y, double scale)
+void renader_rays_minimap(t_game *game, int offset_x, int offset_y)
 {
     double ray_angle;
-    int col;
-    double angle_step;
-    
-
-    col = 0;
-    ray_angle = game->player->player_angle - (FOV / 2.0);
-    angle_step = FOV / NUM_RAYS;
-
-    while (col < NUM_RAYS) 
+    double step;
+    int i;
+    ray_angle = game->player->player_angle - (FOV / 2);
+    step = FOV / NUM_RAYS;
+    i = 0;
+    while (i < NUM_RAYS)
     {
-        cast_ray_minimap(game, ray_angle, offset_x, offset_y, scale);
-        ray_angle  += angle_step ;
-        col++;
+        cast_ray_minimap(game, ray_angle, offset_x, offset_y);
+        ray_angle += step;
+        i++;
     }
 }
+
+void draw_minimap(t_game *game)
+{
+    int sx;
+    int sy;
+
+    sx =  MINIMAP_RADIUS + 20;
+    sy = MINIMAP_RADIUS + 20;
+    
+    draw_minimap_circle(game, sx, sy);
+    draw_minimap_map(game, sx, sy);
+    renader_rays_minimap(game, sx, sy);
+    draw_circle(game, sx, sy, 4, 0x00FF00);
+  
+}
+
+
+
+
+
+
+
+
+
+

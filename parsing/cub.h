@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/05 19:11:08 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/08 12:37:51 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ typedef struct s_game
 // #define ROTATE_SPEED 0.5 
 #define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 15
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1500
+# define HEIGHT 1020
 // for imac !!!
 // #define KEY_ESC  53
 // #define KEY_W       13
