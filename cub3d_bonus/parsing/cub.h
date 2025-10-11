@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/10 22:00:11 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/11 16:09:30 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ int mouse_move(int x, int y, t_game *game);
 void draw_weapon(t_game *game);
 void update_weapon_animation(t_weapon *wea);
 void init_weapon(t_game *game);
+void draw_crosshair(t_game *game);
 
 
 #endif

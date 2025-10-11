@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 18:03:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/10 22:01:31 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/11 16:10:26 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void draw_weapon(t_game *game)
     frame.img = wea->frames[wea->current_frame];
     frame.img_p_data = mlx_get_data_addr(frame.img, &frame.bit_p_pixle, &frame.line_len, &frame.endain);
 
-    x_offset = (game->win_width / 2) - (wea->width / 2);
-    y_offset = game->win_height - wea->height - 20;
+    x_offset = (game->win_width / 2) - (wea->width / 2) - 20;
+    y_offset = game->win_height - wea->height;
 
     y = 0;
     while (y < wea->height)
@@ -126,6 +126,42 @@ void draw_weapon(t_game *game)
     }
 }
 
+void draw_crosshair(t_game *game)
+{
+    int center_x;
+    int center_y;
+    int size;
+    int lines_width;
+    int i;
+    int j;
+
+    center_x = game->win_width / 2;
+    center_y = game->win_height / 2;
+    size = 5;
+    lines_width = 1;
+    i = -lines_width;
+    while (i <= lines_width )
+    {
+        j = -size;
+        while (j <= size)
+        {
+            my_img_buffer(game, center_x + j, center_y + i, 0xFFFFFF);
+            j++;
+        }
+        i++;
+    }
+    i = -size;
+    while (i <= size)
+    {
+        j = -lines_width;
+        while (j <= lines_width)
+        {
+            my_img_buffer(game, center_x + j, center_y + i, 0xFFFFFF);
+            j++;
+        }
+        i++;
+    }
+}
 
 // void draw_weapon(t_game *game)
 // {

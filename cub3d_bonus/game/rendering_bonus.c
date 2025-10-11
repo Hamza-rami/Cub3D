@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:41:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/10 22:02:46 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/11 16:09:41 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int render_map(void *parm)
     
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     draw_weapon(game);
+    draw_crosshair(game);
     
     return (0);
 }
