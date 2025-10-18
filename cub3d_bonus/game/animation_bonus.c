@@ -24,32 +24,15 @@ void init_weapon(t_game *game)
     
     wea = &game->ak_47;
     wea->toto_frames = 43;
-    wea->frames = malloc(sizeof(void *) * wea->toto_frames);
-    if (!wea->frames)
-    {
-        printf("Error: malloc \n");
-        exit(1); // tfaker free 
-    }
-    wea_pathe = malloc(sizeof(void *) * wea->toto_frames);
-    if (!wea_pathe)
-    {
-        printf("Error: malloc \n");
-        // free !!!!!!!!!!!!11
-        exit(1);
-    }
+    wea->frames = ft_malloc(sizeof(void *) * wea->toto_frames, 1);
+    wea_pathe = ft_malloc(sizeof(void *) * wea->toto_frames, 1);
     while (i < wea->toto_frames)
     {
         char *num = ft_itoa(i);
-        tmp = ft_strjoin("../../texters/ak_47/", num);
-        free(num);
+        tmp = ft_strjoin("../cub/texters/ak_47/", num);
         wea_pathe[i] = ft_strjoin(tmp, ".xpm");
-        free(tmp);
         i++;
     }
-    // for (int i = 0;  i <= 42; i++)
-    // {
-    //     printf("%s \n", wea_pathe[i]);
-    // }
     i = 0;
     while (i < wea->toto_frames)
     {
@@ -57,7 +40,7 @@ void init_weapon(t_game *game)
         if (!wea->frames[i])
         {
             printf("Failed to load weapon frame %d.xpm\n", i);
-            //free ;
+            ft_malloc(0,0);
             exit(1);
         }
         i++;

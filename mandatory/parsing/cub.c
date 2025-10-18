@@ -13,17 +13,6 @@
 
 #include "cub.h"
 
-// void init_data(t_game *game)
-// {
-//     game->img_buffer = malloc(sizeof(t_img));
-//     if (!game->img_buffer)
-//         exit(1); // free the after exit !!!!!!
-//     game->img_buffer->img = NULL;
-//     game->img_buffer->img_p_data = NULL;
-//     game->player = malloc(sizeof(t_player));
-//     if (!game->player)
-//         exit(1); // free the after exit !!!!
-// }
 
 void map_staf(t_game *game)
 {
@@ -42,9 +31,7 @@ char *skip_newline(char *str)
 
     while (str[i] && str[i] != '\n')
         i++;
-    new = malloc(i + 1);
-    if (!new)
-        return (NULL);
+    new = ft_malloc(i + 1, 1);
     i = 0;
     while (str[i] && str[i] != '\n')
     {
@@ -60,28 +47,21 @@ int main(int ac, char *av[])
 {
     t_game  *game;
 
-    game = malloc(sizeof(t_game));
-    if (!game)
-        return (1);
-    game->img_buffer = malloc(sizeof(t_img));
-    if (!game->img_buffer)
-        exit(1);
+    game = ft_malloc(sizeof(t_game), 1);
+    game->img_buffer = ft_malloc(sizeof(t_img), 1);
     game->img_buffer->img = NULL;
     game->img_buffer->img_p_data = NULL;
-    game->player = malloc(sizeof(t_player));
-    if (!game->player)
-        exit(1);
+    game->player = ft_malloc(sizeof(t_player), 1);
     if (!check_extension(ac, av[1]))
-        return (1);
+        return (ft_malloc(0,0) ,1);
     if (!parse_texture(av[1], game))
-        return (1);
+        return (ft_malloc(0,0) ,1);
     store_map(av[1], game);
     map_staf(game);
     if (!valide_char(game))
-        return (1);
+        return (ft_malloc(0,0) ,1);
     if (!is_map_closed(game))
-        return (1);
-    
+        return (ft_malloc(0,0) ,1);
     put_window(game);
     init_player_angle(game);
     load_texturs(game);
@@ -91,7 +71,3 @@ int main(int ac, char *av[])
     mlx_loop(game->mlx);
     return 0;
 }
-
-
-
-

@@ -17,8 +17,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-// #include "mlx.h" // for imac 
-#include "../minilibx-linux/mlx.h"
+#include "../../minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdbool.h>
 
@@ -41,7 +40,7 @@ typedef struct s_rayhit
 {
 	double distance;
 	double perpendicular_dist;
-    int side;     // 0 = x-side, 1 = y-side
+    int side;
     int mapX;
     int mapY;
 	int start;
@@ -65,9 +64,9 @@ typedef union u_color
 typedef struct s_img
 {
 	void	*img;
-	char	*img_p_data; // img data pixle
-	int 	bit_p_pixle; // the bite of the pixle 
-	int 	line_len; // the len of the line of pixle 
+	char	*img_p_data;
+	int 	bit_p_pixle;
+	int 	line_len;
 	int 	endain;	
 
 } t_img;
@@ -77,7 +76,7 @@ typedef struct s_player
 	float   player_y;
 	float dir_x;
     float dir_y;
-	float	player_angle; // Player direction in radians
+	float	player_angle;
 } t_player;
 
 typedef struct s_game
@@ -102,6 +101,12 @@ typedef struct s_game
 	char	pos;
 }   t_game;
 
+typedef struct s_gc
+{
+	void						*ptr;
+	struct s_gc					*next;
+}								t_gc;
+
 
 
 # ifndef BUFFER_SIZE
@@ -111,43 +116,21 @@ typedef struct s_game
 
 
 #define TILE_SIZE 64
-// #define ROTATE_SPEED 0.5 
 #define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 15
 # define WIDTH 1500
 # define HEIGHT 1020
-// for imac !!!
-// #define KEY_ESC  53
-// #define KEY_W       13
-// #define KEY_A       0
-// #define KEY_S       1
-// #define KEY_D       2
-// #define KEY_LEFT    123
-// #define KEY_RIGHT   124
 
-// for windows!!
-// #define KEY_ESC  53
-// #define KEY_W       13
-// #define KEY_A       0
-// #define KEY_S       1
-// #define KEY_D       2
-// #define KEY_LEFT    123
-// #define KEY_RIGHT   124
-
-
-// for linux 
-# define KEY_ESC     65307  // Escape
-# define KEY_W       119    // W
-# define KEY_A       97     // A
-# define KEY_S       115    // S
-# define KEY_D       100    // D
-# define KEY_LEFT    65361  // Left arrow
+# define KEY_ESC     65307
+# define KEY_W       119
+# define KEY_A       97
+# define KEY_S       115
+# define KEY_D       100
+# define KEY_LEFT    65361
 # define KEY_RIGHT   65363
 
 
 #define FOV  (M_PI / 3)
-
-
 
 
 
@@ -175,7 +158,6 @@ void check_move(t_game *game, double new_x, double new_y);
 int     handle_key(int keycode, t_game *game);
 void init_player_angle(t_game *game);
 void draw_squer(t_game *game, int p_x , int p_y, int color);
-// void renader_rays(t_game *game);
 void my_img_buffer(t_game *game, int x, int y, int color);
 
 t_rayhit cast_ray(t_game *game, double ray_angle);
@@ -191,6 +173,7 @@ char *skip_newline(char *str);
 
 int  render_loop(void *parms);
 void init_player_position(t_game *game);
+void	*ft_malloc(size_t size, int flag);
 
 
 // 2d map !!!

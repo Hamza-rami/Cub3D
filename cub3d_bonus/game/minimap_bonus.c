@@ -159,6 +159,10 @@ void draw_minimap_map(t_game *game, int sx, int sy)
                         
                         if (game->map[my][mx] == '1')
                             my_img_buffer(game, (draw_x + i),( draw_y + j), 0xFFFFFF);
+                        else if (game->map[my][mx] == 'D')
+                            my_img_buffer(game, (draw_x + i),( draw_y + j),  0x0000FF);
+                        else if ( game->map[my][mx] == 'O')
+                            my_img_buffer(game, (draw_x + i),( draw_y + j),  0xFFFF00);
                         else 
                             my_img_buffer(game, (draw_x + i), (draw_y + j), 0x333333);
                     }
@@ -192,7 +196,7 @@ void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y
 
         if (map_x < 0 || map_y < 0 || map_x >= game->map_width || map_y >= game->map_height)
             break;
-        if (game->map[map_y][map_x] == '1')
+        if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == 'D')
             break;
 
         mini_x = (ray_x - game->player->player_x) * MINIMAP_SCALE;

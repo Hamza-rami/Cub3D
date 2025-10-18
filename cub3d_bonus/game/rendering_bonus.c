@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:41:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/11 16:09:41 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/12 16:40:01 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 
 void put_window(t_game *game)
 {
-    game->win_width = WIDTH ; //ft_max_len(game->map) * TILE_SIZE;
-    game->win_height = HEIGHT ;//(game->count - 6) * TILE_SIZE;
-    // free befor the exit just for later !!! 
-    
-    // printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
+    game->win_width = WIDTH;
+    game->win_height = HEIGHT;
     game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
-
-    // exit(1);
 }
 
 
@@ -56,6 +51,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img)
     {
         printf("mlx_new_image failed\n");
+        ft_malloc(0,0);
         exit(1);
     }
     game->img_buffer->img_p_data = mlx_get_data_addr(game->img_buffer->img, 
@@ -65,6 +61,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img_p_data)
     {
         printf("mlx_get_data_addr failed\n");
+        ft_malloc(0,0);
         exit(1);
     }
     init_player_position(game);
@@ -140,7 +137,7 @@ int is_wall(t_game *game, double new_x, double new_y)
     map_y = (int) ( new_y / TILE_SIZE );
     if (map_x < 0 || map_y < 0 || map_x >= game->map_width || map_y >= game->map_height)
         return (1);
-    if (game->map[map_y][map_x] == '1')
+    if (game->map[map_y][map_x] == '1' || game->map[map_y][map_x] == 'D')
         return (1);
     return (0);
 }
@@ -201,6 +198,62 @@ void check_move(t_game *game, double new_x, double new_y)
     }
 }
 
+void open_door(t_game *game)
+{
+    int p_x;
+    int p_y;
+    
+    p_x = (int)(game->player->player_x / TILE_SIZE);
+    p_y = (int)(game->player->player_y / TILE_SIZE);
+    if (game->map[p_y][p_x + 1] == 'D')
+    {
+        game->map[p_y][p_x + 1] = 'O'; 
+    }
+    else if (game->map[p_y][p_x - 1] == 'D')
+    {
+        game->map[p_y][p_x - 1] = 'O';
+    }
+    else if (game->map[p_y + 1][p_x] == 'D')
+    {
+        game->map[p_y + 1][p_x] = 'O';
+    }
+    else if (game->map[p_y - 1][p_x] == 'D')
+    {
+        game->map[p_y - 1][p_x] = 'O';
+    }
+    else
+        return;
+        
+}
+
+void close_door(t_game *game)
+{
+    int p_x;
+    int p_y;
+    
+    p_x = (int)(game->player->player_x / TILE_SIZE);
+    p_y = (int)(game->player->player_y / TILE_SIZE);
+    if (game->map[p_y][p_x + 1] == 'O')
+    {
+        game->map[p_y][p_x + 1] = 'D'; 
+    }
+    else if (game->map[p_y][p_x - 1] == 'O')
+    {
+        game->map[p_y][p_x - 1] = 'D';
+    }
+    else if (game->map[p_y + 1][p_x] == 'O')
+    {
+        game->map[p_y + 1][p_x] = 'D';
+    }
+    else if (game->map[p_y - 1][p_x] == 'O')
+    {
+        game->map[p_y - 1][p_x] = 'D';
+    }
+    else
+        return;
+        
+}
+
 
 int handle_key(int keycode, t_game *game)
 {
@@ -221,9 +274,14 @@ int handle_key(int keycode, t_game *game)
             game->ak_47.counter = 0;
         }
     }
+    if (keycode == KEY_O)
+        open_door(game);
+    if (keycode == KEY_C)
+        close_door(game);
     if (keycode == KEY_ESC)
     {
         mlx_mouse_show(game->mlx, game->window);
+        ft_malloc(0,0);
         exit(0);
     }
     else if (keycode == KEY_M)

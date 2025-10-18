@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:43:26 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/06 16:44:12 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/12 15:54:54 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ t_rayhit cast_ray(t_game *game, double ray_angle)
             hit = 1;
             break;
         }
-        if (game->map[mapY][mapX] == '1') {
+        if (game->map[mapY][mapX] == '1' || game->map[mapY][mapX] == 'D') {
+            ray.is_door = (game->map[mapY][mapX] == 'D');
             hit = 1;
         }
     }

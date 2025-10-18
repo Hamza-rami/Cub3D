@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 15:27:06 by hrami             #+#    #+#             */
+/*   Updated: 2025/10/12 15:31:11 by hrami            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 int ft_strcmp(char *s1, char *s2)
@@ -46,12 +58,22 @@ int check_extension(int ac, char *filename)
     return (0);
 }
 
-void free_split(char **arr)
+
+int calc_ver(char *str)
 {
     int i = 0;
-    while (arr[i])
-        free(arr[i++]);
-    free(arr);
+    int j = 0;
+    while (str[i])
+    {
+        if (str[i] == ',')
+            j++;
+        i++;    
+    }
+    if (j == 2)
+        return (1);
+    else 
+        return (0);
+    
 }
 
 int parse_rgb(char *str)
@@ -60,14 +82,16 @@ int parse_rgb(char *str)
 	int r;
     int g;
     int b;
-
+    if (!calc_ver(str))
+    {
+        return (printf("Error: invalid RGB color format\n"), ft_malloc(0,0), exit(1), 1);
+    }
 	split = ft_split(str, ',');
 	if (!split[0] || !split[1] || !split[2] || split[3])
-    	return (printf("Error: invalid floor color format\n"), exit(1), 1);
+    	return (printf("Error: invalid RGB color format\n"), ft_malloc(0,0), exit(1), 1);
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
-	free_split(split);
 	return((r << 16) | (g << 8) | b);
 }
 
@@ -91,84 +115,61 @@ int parse_texture(char *filename, t_game *game)
     line = get_next_line(fd);
     while (line)
     {
-        if (line[0] == '\n')
+        line = skip_newline(line);
+        if (line[0] == '\0')
         {
-            free(line);
             line = get_next_line(fd);
             continue ;
         }
         if (!ft_strncmp(line, "NO ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid NO line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
+            char *path = line + 3;
+            while (*path == ' ' || *path == '\t')
                 path++;
             game->no = ft_strdup(path);
-            // game->no = ft_strdup(split[1]);
-            // free_split(split);
             has_no++;
         }
         else if (!ft_strncmp(line, "SO ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid SO line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
+            char *path = line + 3;
+            while (*path == ' ' || *path == '\t')
                 path++;
             game->so = ft_strdup(path);
-            // game->so = ft_strdup(split[1]);
-            // free_split(split);
             has_so++;
         }
         else if (!ft_strncmp(line, "WE ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid WE line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
+            char *path = line + 3;
+            while (*path == ' ' || *path == '\t')
                 path++;
             game->we = ft_strdup(path);
-            // game->we = ft_strdup(split[1]);
-            // free_split(split);
             has_we++;
         }
         else if (!ft_strncmp(line, "EA ", 3))
         {
-            // split = ft_split(line, ' ');
-            // if (!split[0] || !split[1] || split[2])
-            //      return (printf("Error: invalid EA line format\n"), free_split(split), 0);
-            char *path = line + 3; // move past "NO "
-            while (*path == ' ' || *path == '\t') // skip any extra spaces
+            char *path = line + 3;
+            while (*path == ' ' || *path == '\t')
                 path++;
             game->ea = ft_strdup(path);
-            // game->ea = ft_strdup(split[1]);
-            // free_split(split);
             has_ea++;
         }
         else if (!ft_strncmp(line, "F ", 2))
         {
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
-                 return (printf("Error: invalid line format\n"), free_split(split), 0);
+                 return (printf("Error: invalid line format\n"), 0);
             game->floor_rgb.value = parse_rgb(split[1]);
-			free_split(split);
             has_f++;
         }
         else if (!ft_strncmp(line, "C ", 2))
         {
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
-                 return (printf("Error: invalid line format\n"), free_split(split), 0);
+                 return (printf("Error: invalid line format\n"), 0);
             game->ceiling_rgb.value = parse_rgb(split[1]);
-            free_split(split);
 			has_c++; 
         }
         game->count++;
-        free(line);
         line = get_next_line(fd);
     }
     if (has_ea > 1 || has_no > 1 || has_so > 1 || has_we > 1 || has_c > 1 || has_f > 1)
@@ -192,13 +193,10 @@ void store_map(char *file, t_game *game)
     if (fd < 0)
     {
         perror("can't open .cub file");
+        ft_malloc(0,0);
         exit(1);
     }
-    game->map = malloc((game->count - 5) * sizeof(char *));
-    if (!game->map)
-    {
-        exit(1);
-    }
+    game->map = ft_malloc((game->count - 5) * sizeof(char *), 1);
     line = get_next_line(fd);
     while(line)
     {
@@ -206,21 +204,22 @@ void store_map(char *file, t_game *game)
         {
             if (flag == 1)
                 flag = 2;
-            free(line);
             line = get_next_line(fd);
             continue ;
         }
         if (count > 5)
         {
             if (flag == 2)
+            {
+                ft_malloc(0,0);
                 exit(0);
+            }
             if (line[0] == ' ' || line[0] ==  '1' || line[0] == '0')
                 flag = 1;
             game->map[i] = ft_strdup(line);
             i++;
         }
         count++;
-        free(line);
         line = get_next_line(fd);
     }
     game->map[i] = NULL;

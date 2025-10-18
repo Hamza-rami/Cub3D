@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/11 16:09:30 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/12 16:21:51 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_rayhit
     int mapY;
 	int start;
 	int  end;
+	int is_door;
 	double wallX; 
 	
 } t_rayhit;
@@ -108,7 +109,7 @@ typedef struct s_game
 	t_color	ceiling_rgb;
 	t_img   *img_buffer;
 	t_player	*player;
-	t_texturs texturs[4];
+	t_texturs texturs[5];
 	t_weapon  ak_47;
 	int     win_width;
 	int     win_height;
@@ -117,6 +118,12 @@ typedef struct s_game
 	  
 	char	pos;
 }   t_game;
+
+typedef struct s_gc
+{
+	void						*ptr;
+	struct s_gc					*next;
+}								t_gc;
 
 
 
@@ -137,7 +144,7 @@ typedef struct s_game
 
 
 // #define ROTATE_SPEED 0.5 
-#define ROTATE_SPEED 10 * (3.14 / 180);
+#define ROTATE_SPEED 1 * (3.14 / 180);
 #define MOVE_SPEED 11
 # define WIDTH 1500
 # define HEIGHT 1020
@@ -146,16 +153,17 @@ typedef struct s_game
 
 
 // for linux 
-# define KEY_ESC     65307  // Escape
-# define KEY_W       119    // W
-# define KEY_A       97     // A
-# define KEY_S       115    // S
-# define KEY_D       100    // D
-# define KEY_LEFT    65361  // Left arrow
-# define KEY_RIGHT   65363
-# define KEY_M		 109	
-# define KEY_R		 114       
-
+# define KEY_ESC    65307  // Escape
+# define KEY_W      119    // W
+# define KEY_A      97     // A
+# define KEY_S      115    // S
+# define KEY_D      100    // D
+# define KEY_LEFT   65361  // Left arrow
+# define KEY_RIGHT  65363
+# define KEY_M		109	
+# define KEY_R		114       
+# define KEY_O		111      
+# define KEY_C		99
 
 #define FOV  (M_PI / 3)
 
@@ -217,6 +225,7 @@ void draw_weapon(t_game *game);
 void update_weapon_animation(t_weapon *wea);
 void init_weapon(t_game *game);
 void draw_crosshair(t_game *game);
+void	*ft_malloc(size_t size, int flag);
 
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:42:52 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/06 16:49:18 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/12 16:09:32 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@
 
 void load_texturs(t_game *game)
 {
-    char *texturs[4];
+    char *texturs[5];
     int i;
 
     texturs[0] = skip_newline(game->no);
     texturs[1] = skip_newline(game->so);
     texturs[2] = skip_newline(game->we);
     texturs[3] = skip_newline(game->ea);
+    texturs[4] = skip_newline("../cub/texters/abouabba.xpm");
 
     i = 0;
-    while (i < 4)
+    while (i < 5)
     {
         game->texturs[i].img = mlx_xpm_file_to_image(game->mlx, texturs[i], &game->texturs[i].width, &game->texturs[i].height);  
         if (!game->texturs[i].img)
         {
             printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
-            exit(1); // free all before exiting 
+            ft_malloc(0,0);
+            exit(1);
         }
         game->texturs[i].data = mlx_get_data_addr(game->texturs[i].img, &game->texturs[i].bit_p_pixle, &game->texturs[i].line_len, &game->texturs[i].endain);
         i++;
@@ -62,7 +64,7 @@ int get_texturs_color(t_texturs *tex, int x, int y)
 
 void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double rayAngle)
 {
-    int tex_num;
+    int tex_num ;
     double ray_dir_x = cos(rayAngle);
     double ray_dir_y = sin(rayAngle);
     double wall_x;
@@ -71,7 +73,9 @@ void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double
     int y, color;
 
     // Texture selection
-    if (hit->side == 0)
+    if (hit->is_door)
+        tex_num = 4;
+    else if (hit->side == 0)
     {
         if (ray_dir_x > 0)
             tex_num = 3; //east

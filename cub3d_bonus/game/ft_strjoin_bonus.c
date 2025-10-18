@@ -44,7 +44,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (ft_strdup(s1));
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	string = (char *) malloc(((len_s1 + len_s2) + 1) * sizeof(char));
+	string = (char *) ft_malloc(((len_s1 + len_s2) + 1) * sizeof(char), 1);
 	if (!string)
 		return (NULL);
 	my_strlcpy(string, s1, len_s1 + 1);

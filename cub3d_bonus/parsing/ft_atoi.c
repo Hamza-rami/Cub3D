@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/12 15:27:21 by hrami             #+#    #+#             */
+/*   Updated: 2025/10/12 15:27:22 by hrami            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static void	ft_skip(char const *str, int *i)
@@ -9,6 +21,7 @@ static void	ft_skip(char const *str, int *i)
 		if (str[*i] == '-')
 		{
 			printf("Error: color value Not Exact");
+			ft_malloc(0,0);
 			exit(1);
 		}
 		(*i)++;
@@ -28,12 +41,14 @@ int	ft_atoi(char *str)
 		if (str[i] < '0' || str[i] > '9')
 		{
 			printf("Error: color value Not Exact");
+			ft_malloc(0,0);
 			exit(1);
 		}
 		r = r * 10 + (str[i] - '0');
 		if (r > 2147483647)
 		{
 			printf("Error: color value Not Exact");
+			ft_malloc(0,0);
 			exit(1);
 		}
 		i++;
@@ -41,6 +56,7 @@ int	ft_atoi(char *str)
 	if (r > 255)
 	{
 		printf("Error: color value out of range");
+		ft_malloc(0,0);
 		exit(1);
 	}
 	return (r);

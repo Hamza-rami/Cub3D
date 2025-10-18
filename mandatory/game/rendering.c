@@ -18,12 +18,11 @@ void put_window(t_game *game)
     game->win_height = HEIGHT ;
     game->mlx = mlx_init();
     if (!game->mlx)
-        exit(1);  // free befor the exit just for later !!! 
-    
-    // printf("Player initialized at: X=%f, Y=%f\n", game->player->player_x, game->player->player_y);
+    {
+        ft_malloc(0,0);
+        exit(1);
+    }
     game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
-
-    // exit(1);
 }
 
 
@@ -141,6 +140,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img)
     {
         printf("mlx_new_image failed\n");
+        ft_malloc(0,0);
         exit(1);
     }
     game->img_buffer->img_p_data = mlx_get_data_addr(game->img_buffer->img, 
@@ -150,6 +150,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img_p_data)
     {
         printf("mlx_get_data_addr failed\n");
+        ft_malloc(0,0);
         exit(1);
     }
     init_player_position(game);
@@ -298,7 +299,11 @@ int handle_key(int keycode, t_game *game)
     new_y = game->player->player_y;
     int moved = 0;
     if (keycode == KEY_ESC)
+    {
+
+        ft_malloc(0,0);
         exit(0);
+    }
     else if (keycode == KEY_W)
     {
         new_x += cos(game->player->player_angle) * MOVE_SPEED ;
@@ -332,10 +337,7 @@ int handle_key(int keycode, t_game *game)
     if (game->player->player_angle >= 2 * M_PI)
         game->player->player_angle -= 2 * M_PI;
     if (moved)
-    {
         check_move(game, new_x, new_y);
-        
-    }
     return (0);
 }
 

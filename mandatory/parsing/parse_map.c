@@ -88,7 +88,7 @@ char	**pad_map_lines(char **map)
 			len++;
 		if (len < max)
 		{
-			new_line = malloc(max + 1);
+			new_line = ft_malloc(max + 1, 1);
 			if (!new_line)
 				return (NULL);
 			j = 0;
@@ -101,7 +101,6 @@ char	**pad_map_lines(char **map)
 				j++;
 			}
 			new_line[max] = '\0';
-			free(map[i]);
 			map[i] = new_line;
 		}
 		i++;
@@ -122,7 +121,7 @@ int is_map_closed(t_game *game)
 	game->map = pad_map_lines(game->map);
 	if (!game->map)
 	{
-		printf("ERROR : malloc failed");
+		printf("ERROR : ft_malloc failed");
 		return (0);
 	}
 	while (game->map[y])

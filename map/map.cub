@@ -1,7 +1,8 @@
-NO  ../../texters/wall.xpm
-SO  ../../texters/wall.xpm
-WE  ../../texters/wall.xpm
-EA  ../../texters/wall.xpm
+NO  ../cub/texters/wall.xpm
+SO  ../cub/texters/wall.xpm
+WE  ../cub/texters/wall.xpm
+EA  ../cub/texters/wall.xpm
+
 F   0,0,10
 C   173,216,230
 

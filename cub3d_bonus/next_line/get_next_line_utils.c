@@ -32,7 +32,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (start + len > i)
 		len = i - start;
-	sub = malloc(len + 1);
+	sub = ft_malloc(len + 1, 1);
 	if (sub == NULL)
 		return (NULL);
 	ft_strncpy(sub, s + start, len);
@@ -48,7 +48,7 @@ char	*ft_strdup(char *src)
 	i = 0;
 	if (!src)
 		return (NULL);
-	str = malloc(ft_strlen(src) + 1);
+	str = ft_malloc(ft_strlen(src) + 1, 1);
 	if (!str)
 		return (NULL);
 	while (src[i])

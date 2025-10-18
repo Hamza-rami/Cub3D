@@ -25,11 +25,6 @@ void load_texturs(t_game *game)
     texturs[2] = skip_newline(game->we);
     texturs[3] = skip_newline(game->ea);
 
-    // texturs[0] = "../texters/wall2.xpm";
-    // texturs[1] = "../texters/wall2.xpm";
-    // texturs[2] = "../texters/wall.xpm";
-    // texturs[3] = "../texters/wall.xpm";
-
     i = 0;
     while (i < 4)
     {
@@ -37,7 +32,8 @@ void load_texturs(t_game *game)
         if (!game->texturs[i].img)
         {
             printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
-            exit(1); // free all before exiting 
+            ft_malloc(0,0);
+            exit(1);
         }
         game->texturs[i].data = mlx_get_data_addr(game->texturs[i].img, &game->texturs[i].bit_p_pixle, &game->texturs[i].line_len, &game->texturs[i].endain);
         i++;
