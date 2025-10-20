@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:30 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/08 12:29:01 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/20 19:03:52 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ void put_window(t_game *game)
 {
     game->win_width = WIDTH ;
     game->win_height = HEIGHT ;
-    game->mlx = mlx_init();
-    if (!game->mlx)
-    {
-        ft_malloc(0,0);
-        exit(1);
-    }
     game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3D");
 }
 
@@ -37,10 +31,7 @@ void my_img_buffer(t_game *game, int x, int y, int color)
     }
     
     if (x < 0 || y < 0 || x >= game->win_width || y >= game->win_height)
-    {
-        // printf("Out of bounds write! x=%d y=%d\n", x, y);
         return;
-    }
 
     pixel_buff = game->img_buffer->img_p_data + ( y * (game->img_buffer->line_len) + x * (game->img_buffer->bit_p_pixle / 8));
     *(unsigned int *)pixel_buff = color;
@@ -65,74 +56,6 @@ void draw_squer(t_game *game, int p_x , int p_y, int color)
         x++;
     }
 }
-// for test !!!
-// void draw_circle(t_game *game, int cx, int cy, int radius, int color)
-// {
-//     int x;
-//     int y;
-//     int dx;
-//     int dy;
-
-//     for (y = -radius; y <= radius; y++)
-//     {
-//         for (x = -radius; x <= radius; x++)
-//         {
-//             dx = cx + x;
-//             dy = cy + y;
-//             if (x * x + y * y <= radius * radius)
-//                 my_img_buffer(game, dx, dy, color);
-//         }
-//     }
-// }
-///
-
-
-
-
-
-// whent this for the bounse  >>> for the minimap in the top a hamza 
-// void put_pxls(t_game *game)
-// {
-//     int x;
-//     int y;
-//     int draw_x;
-//     int draw_y;
-
-
-//     x = 0;
-//     while (game->map[x])
-//     {
-//         y = 0;
-//         while (game->map[x][y])
-//         {
-//             draw_x = y * TILE_SIZE;
-//             draw_y = x * TILE_SIZE;
-//             if (game->map[x][y] == '1')
-//                 draw_squer(game, draw_x, draw_y, 0x333333);
-//             else if (game->map[x][y] == '0')
-//                 draw_squer(game, draw_x, draw_y, 0xFFFFFF);
-//             else if (game->map[x][y] == 'S' || game->map[x][y] == 'N' || game->map[x][y] == 'E' || game->map[x][y] == 'W')
-//             {
-//                 game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
-//                 game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
-
-//                 game->map[x][y] = '0'; 
-//                 draw_squer(game, draw_x, draw_y, 0x800080);
-//             }
-//             else 
-//                 draw_squer(game, draw_x, draw_y, 0x000000);
-//            y++; 
-//         }
-//         x++;
-        
-//     }
-//     // draw_squer(the same parm /!\ ) !!!!!
-    
-//     // draw_circle(game, (int)(game->player->player_x ), (int)(game->player->player_y ), 10, 0x800080);
-    
-//     return ; 
-// }
-// end (/!\) 
 
 void init_game_graphics(t_game *game)
 {
@@ -140,6 +63,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img)
     {
         printf("mlx_new_image failed\n");
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(1);
     }
@@ -150,6 +74,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img_p_data)
     {
         printf("mlx_get_data_addr failed\n");
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(1);
     }
@@ -171,7 +96,7 @@ void init_player_position(t_game *game)
                 game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
                 game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
                 game->map[x][y] = '0'; 
-                return; // Exit after finding player
+                return;
             }
             y++; 
         }
@@ -204,13 +129,7 @@ int render_map(void *parm)
     t_game *game = (t_game *)parm;
 
     clear_image(game);
-
-    // put_pxls(game);
-    
     renader_rays(game);
-    
-    // render_3d(game);
-
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     
     return (0);
@@ -300,7 +219,7 @@ int handle_key(int keycode, t_game *game)
     int moved = 0;
     if (keycode == KEY_ESC)
     {
-
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(0);
     }

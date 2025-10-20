@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 18:03:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/11 16:10:26 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/20 18:30:11 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void init_weapon(t_game *game)
     while (i < wea->toto_frames)
     {
         char *num = ft_itoa(i);
-        tmp = ft_strjoin("../cub/texters/ak_47/", num);
+        tmp = ft_strjoin("texters/ak_47/", num);
         wea_pathe[i] = ft_strjoin(tmp, ".xpm");
         i++;
     }
@@ -40,6 +40,7 @@ void init_weapon(t_game *game)
         if (!wea->frames[i])
         {
             printf("Failed to load weapon frame %d.xpm\n", i);
+            ft_mlxfree(game);
             ft_malloc(0,0);
             exit(1);
         }

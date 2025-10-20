@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/08 12:37:51 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/20 19:37:34 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ typedef struct s_gc
 #define FOV  (M_PI / 3)
 
 
-
 char	*ft_strncpy(char *dest, char const *src, unsigned int n);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(char *src);
@@ -150,35 +149,26 @@ int     ft_max_len(char **map);
 int     valide_char(t_game *con);
 int     is_map_closed(t_game *con);
 void    put_window(t_game *game);
-void    put_pxls(t_game *game);
 int render_map(void *parm);
-int redraw(void *param); 
 void init_game_graphics(t_game *game);
 void check_move(t_game *game, double new_x, double new_y);
 int     handle_key(int keycode, t_game *game);
 void init_player_angle(t_game *game);
 void draw_squer(t_game *game, int p_x , int p_y, int color);
 void my_img_buffer(t_game *game, int x, int y, int color);
-
 t_rayhit cast_ray(t_game *game, double ray_angle);
-
 void renader_rays(t_game *game);
-
 void load_texturs(t_game *game);
-
 void draw_texturs(t_game *game, int x, int end,  int start,t_rayhit *hit, double rayAngle);
 int get_texturs_color(t_texturs *tex, int x, int y);
 void load_texturs(t_game *game);
 char *skip_newline(char *str);
-
 int  render_loop(void *parms);
 void init_player_position(t_game *game);
 void	*ft_malloc(size_t size, int flag);
+void	ft_mlxfree(t_game *game);
+int ft_close_game(t_game *game);
 
-
-// 2d map !!!
-// int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);
-// void renader_rays(t_game *game);
 
 
 #endif

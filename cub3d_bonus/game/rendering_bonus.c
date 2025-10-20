@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:41:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/12 16:40:01 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/20 18:34:51 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,8 @@ void my_img_buffer(t_game *game, int x, int y, int color)
         printf("img_p_data is NULL!\n");
         return;
     }
-    
     if (x < 0 || y < 0 || x >= game->win_width || y >= game->win_height)
-    {
-        // printf("Out of bounds write! x=%d y=%d\n", x, y);
         return;
-    }
-
     pixel_buff = game->img_buffer->img_p_data + ( y * (game->img_buffer->line_len) + x * (game->img_buffer->bit_p_pixle / 8));
     *(unsigned int *)pixel_buff = color;
 
@@ -51,6 +46,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img)
     {
         printf("mlx_new_image failed\n");
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(1);
     }
@@ -61,6 +57,7 @@ void init_game_graphics(t_game *game)
     if (!game->img_buffer->img_p_data)
     {
         printf("mlx_get_data_addr failed\n");
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(1);
     }
@@ -82,7 +79,7 @@ void init_player_position(t_game *game)
                 game->player->player_x = y * TILE_SIZE + TILE_SIZE / 2; 
                 game->player->player_y = x * TILE_SIZE + TILE_SIZE / 2; 
                 game->map[x][y] = '0'; 
-                return; // Exit after finding player
+                return;
             }
             y++; 
         }
@@ -118,11 +115,9 @@ int render_map(void *parm)
     renader_rays(game);
     draw_minimap(game);
     update_weapon_animation(&game->ak_47);
-    
     mlx_put_image_to_window(game->mlx, game->window, game->img_buffer->img, 0, 0);
     draw_weapon(game);
     draw_crosshair(game);
-    
     return (0);
 }
 
@@ -155,8 +150,6 @@ int can_move(t_game *game,  double new_x, double new_y)
     p_y = (int)(game->player->player_y / TILE_SIZE);
     n_x = (int)(new_x / TILE_SIZE);
     n_y = (int)(new_y / TILE_SIZE);
-
-
     if (is_wall(game, new_x, new_y))
         return (0);
     if (is_wall(game, new_x - radius, new_y - radius))
@@ -183,7 +176,6 @@ int can_move(t_game *game,  double new_x, double new_y)
             return (0);
          }
     }
-
     return (1);
 
 }
@@ -279,8 +271,9 @@ int handle_key(int keycode, t_game *game)
     if (keycode == KEY_C)
         close_door(game);
     if (keycode == KEY_ESC)
-    {
+    {   
         mlx_mouse_show(game->mlx, game->window);
+        ft_mlxfree(game);
         ft_malloc(0,0);
         exit(0);
     }
@@ -327,7 +320,6 @@ int handle_key(int keycode, t_game *game)
     if (moved)
     {
         check_move(game, new_x, new_y);
-        
     }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:22 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/05 19:06:37 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/20 19:34:12 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,16 @@ int main(int ac, char *av[])
         return (ft_malloc(0,0) ,1);
     if (!is_map_closed(game))
         return (ft_malloc(0,0) ,1);
-    put_window(game);
-    init_player_angle(game);
+    game->mlx = mlx_init();
+    if (!game->mlx)
+        return(printf("mlx init failed\n"), ft_malloc(0,0) ,1);
     load_texturs(game);
+    init_player_angle(game);
+    put_window(game);
     init_game_graphics(game);
     mlx_loop_hook(game->mlx, render_loop, game);  
     mlx_hook(game->window, 2, 1L << 0, handle_key, game);
+    mlx_hook(game->window, 17, 0, ft_close_game, game);
     mlx_loop(game->mlx);
     return 0;
 }

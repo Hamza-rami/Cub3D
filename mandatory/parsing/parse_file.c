@@ -144,7 +144,7 @@ int parse_texture(char *filename, t_game *game)
         {
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
-                 return (printf("Error: invalid line format\n"), 0);
+                 return (printf("Error: invalid line format\n"), close(fd),0);
             game->floor_rgb.value = parse_rgb(split[1]);
             has_f++;
         }
@@ -152,7 +152,7 @@ int parse_texture(char *filename, t_game *game)
         {
             split = ft_split(line, ' ');
             if (!split[0] || !split[1] || split[2])
-                 return (printf("Error: invalid line format\n"), 0);
+                 return (printf("Error: invalid line format\n"), close(fd), 0);
             game->ceiling_rgb.value = parse_rgb(split[1]);
 			has_c++; 
         }
@@ -160,9 +160,9 @@ int parse_texture(char *filename, t_game *game)
         line = get_next_line(fd);
     }
     if (has_ea > 1 || has_no > 1 || has_so > 1 || has_we > 1 || has_c > 1 || has_f > 1)
-        return (printf("Error: duplicate texture identifier\n"), 0);
+        return (printf("Error: duplicate texture identifier\n"), close(fd), 0);
     if (has_ea == 0 || has_no == 0 || has_so == 0 || has_we == 0 || has_c == 0 || has_f == 0)
-        return (printf("Error: texture file not found\n"), 0);
+        return (printf("Error: texture file not found\n"), close(fd), 0);
     close(fd);
     return (1);
 }
@@ -207,4 +207,5 @@ void store_map(char *file, t_game *game)
         line = get_next_line(fd);
     }
     game->map[i] = NULL;
+    close(fd);
 }  

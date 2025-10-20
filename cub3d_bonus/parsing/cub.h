@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/12 16:21:51 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/20 19:32:49 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-// #include "mlx.h" // for imac 
 #include "../../minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdbool.h>
@@ -144,7 +143,7 @@ typedef struct s_gc
 
 
 // #define ROTATE_SPEED 0.5 
-#define ROTATE_SPEED 1 * (3.14 / 180);
+#define ROTATE_SPEED 10 * (3.14 / 180);
 #define MOVE_SPEED 11
 # define WIDTH 1500
 # define HEIGHT 1020
@@ -166,6 +165,12 @@ typedef struct s_gc
 # define KEY_C		99
 
 #define FOV  (M_PI / 3)
+
+
+
+
+
+
 
 
 
@@ -226,6 +231,7 @@ void update_weapon_animation(t_weapon *wea);
 void init_weapon(t_game *game);
 void draw_crosshair(t_game *game);
 void	*ft_malloc(size_t size, int flag);
-
+void	ft_mlxfree(t_game *game);
+int ft_close_game(t_game *game);
 
 #endif

@@ -41,22 +41,22 @@ void	ft_free_all(t_gc **mlc)
 	}
 }
 
-// void	*ft_memset(void *b, int c, size_t len)
-// {
-// 	size_t			i;
-// 	unsigned char	*p;
-// 	unsigned char	value;
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t			i;
+	unsigned char	*p;
+	unsigned char	value;
 
-// 	i = 0;
-// 	p = (unsigned char *)b;
-// 	value = (unsigned char)c;
-// 	while (i < len)
-// 	{
-// 		p[i] = value;
-// 		i++;
-// 	}
-// 	return (b);
-// }
+	i = 0;
+	p = (unsigned char *)b;
+	value = (unsigned char)c;
+	while (i < len)
+	{
+		p[i] = value;
+		i++;
+	}
+	return (b);
+}
 
 void	*ft_malloc(size_t size, int flag)
 {
@@ -70,7 +70,7 @@ void	*ft_malloc(size_t size, int flag)
 		if (!ptr)
 			return (ft_free_all(&mlc), printf("ft_malloc failed\n"), exit(1),
 				NULL);
-		// ft_memset(ptr, 0, size);
+		ft_memset(ptr, 0, size);
 		new = new_node(ptr);
 		if (!new)
 			return (ft_free_all(&mlc), free(ptr), printf("ft_malloc failed\n"),

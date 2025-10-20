@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:42:52 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/12 16:09:32 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/20 18:29:14 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void load_texturs(t_game *game)
     texturs[1] = skip_newline(game->so);
     texturs[2] = skip_newline(game->we);
     texturs[3] = skip_newline(game->ea);
-    texturs[4] = skip_newline("../cub/texters/abouabba.xpm");
+    texturs[4] = skip_newline("texters/maboulha.xpm");
 
     i = 0;
     while (i < 5)
@@ -33,6 +33,7 @@ void load_texturs(t_game *game)
         if (!game->texturs[i].img)
         {
             printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
+            ft_mlxfree(game);
             ft_malloc(0,0);
             exit(1);
         }

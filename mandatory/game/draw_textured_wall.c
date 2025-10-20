@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 15:43:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/05 19:15:56 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/20 18:57:15 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void load_texturs(t_game *game)
         game->texturs[i].img = mlx_xpm_file_to_image(game->mlx, texturs[i], &game->texturs[i].width, &game->texturs[i].height);  
         if (!game->texturs[i].img)
         {
-            printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
+            printf("Loading texture:%s ==> %d \n", texturs[i], i);
+            ft_mlxfree(game);
             ft_malloc(0,0);
             exit(1);
         }
@@ -57,90 +58,6 @@ int get_texturs_color(t_texturs *tex, int x, int y)
     color = *(int *)(tex->data + offset);
     return (color);
 }
-
-// void draw_texturs(t_game *game, int x, int end,  int start, t_rayhit *hit, double rayAngle)
-// {
-
-//     int tex_num;
-//     double ray_dir_x;
-//     double ray_dir_y;
-//     double wall_x;
-//     int tex_x;
-//     double step;
-//     double tex_pos = 0.0;
-//     int y;
-//     int tex_y;
-//     int color;
-//     int line_h;
-
-
-//     ray_dir_x = cos(rayAngle);
-//     ray_dir_y = sin(rayAngle);
-//     if (hit->side == 0)
-//     {
-//         if (ray_dir_x > 0)
-//             tex_num = 3; //east
-//         else 
-//             tex_num = 2; // west
-//     }
-//     else 
-//     {
-//         if (ray_dir_y > 0)
-//             tex_num = 1; // south
-//         else 
-//             tex_num = 0; //north
-//     }
-
-    
-
-//     wall_x = hit->wallX;
-
-//     tex_x  = (int)(wall_x * (double)game->texturs[tex_num].width );
-
-
-//     // if (hit->side == 0 && ray_dir_x < 0)
-//     //     tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);
-    
-//     // if (hit->side == 1 && ray_dir_y > 0)
-//     //     tex_x  = (game->texturs[tex_num].width) - (tex_x - 1);  
-//     if ((hit->side == 0 && ray_dir_x <  0) || (hit->side == 1 && ray_dir_y > 0))
-//         tex_x = game->texturs[tex_num].width - tex_x - 1;
-
-//     if (tex_x < 0)
-//         tex_x = 0;
-//     if (tex_x >= game->texturs[tex_num].width)
-//         tex_x = game->texturs[tex_num].width - 1;
-   
-//     line_h  = end - start;
-
-//     if (line_h <= 0)
-//         return;
-
-//     step = (double)game->texturs[tex_num].height / (double)line_h;
-
-//     tex_pos = ( start - (game->win_height / 2.0) + (line_h) / 2.0 ) * step;
-
-//     if (tex_pos < 0.0)
-//         tex_pos = 0.0;
-
-
-//     // tex_pos = 0.0;
-
-//     y = start;
-//     while (y < end)
-//     {
-//         tex_y = floor(tex_pos);
-//         if (tex_y < 0)
-//             tex_y  = 0;
-//         if (tex_y >= game->texturs[tex_num].height)
-//             tex_y = game->texturs[tex_num].height - 1;
-        
-//         color = get_texturs_color(&game->texturs[tex_num], tex_x, tex_y);
-//         my_img_buffer(game, x, y, color);
-//         tex_pos += step;
-//         y++;
-//     }
-// }
 
 void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double rayAngle)
 {
