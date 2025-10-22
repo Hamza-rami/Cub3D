@@ -6,7 +6,7 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/20 19:32:49 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/21 10:39:46 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 
 
 
-
-
 typedef struct s_weapon
 {
 	void **frames;
@@ -38,6 +36,8 @@ typedef struct s_weapon
 	
 } t_weapon ;
 
+
+
 typedef struct s_texturs
 {
 	void	*img;
@@ -49,6 +49,8 @@ typedef struct s_texturs
 	int 	height;
 
 } t_texturs ;
+
+
 
 typedef struct s_rayhit
 {
@@ -63,6 +65,8 @@ typedef struct s_rayhit
 	double wallX; 
 	
 } t_rayhit;
+
+
 
 typedef union u_color
 {
@@ -85,6 +89,8 @@ typedef struct s_img
 	int 	endain;	
 
 } t_img;
+
+
 typedef struct s_player
 {
 	float   player_x;
@@ -166,16 +172,6 @@ typedef struct s_gc
 
 #define FOV  (M_PI / 3)
 
-
-
-
-
-
-
-
-
-
-
 char	*ft_strncpy(char *dest, char const *src, unsigned int n);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(char *src);
@@ -216,10 +212,6 @@ char *skip_newline(char *str);
 int  render_loop(void *parms);
 void init_player_position(t_game *game);
 
-
-// 2d map !!!
-// int cast_ray(t_game *game, double ray_angle, int *hit_x, int *hit_y);
-// void renader_rays(t_game *game);
 
 void renader_rays_minimap(t_game *game, int offset_x, int offset_y);
 void cast_ray_minimap(t_game *game, double ray_angle, int offset_x, int offset_y);

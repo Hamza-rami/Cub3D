@@ -6,13 +6,11 @@
 /*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:05:49 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/10 17:52:59 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/21 11:17:59 by yhajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub.h"
-
-
 
 void draw_thick_pixel(t_game *game, int x, int y, int color, int size)
 {
@@ -34,7 +32,6 @@ void draw_thick_pixel(t_game *game, int x, int y, int color, int size)
         dy++;
     }    
 }
-
 
 void draw_squer(t_game *game, int p_x , int p_y, int size, int color)
 {
@@ -119,6 +116,8 @@ void draw_minimap_map(t_game *game, int sx, int sy)
     end_y = (int)(game->player->player_y / TILE_SIZE) + 10;
     int size = (int)(TILE_SIZE * MINIMAP_SCALE); 
     my = start_y;
+
+    
     if (size <= 0)
         size = 1;
     if (start_x < 0)
@@ -140,7 +139,6 @@ void draw_minimap_map(t_game *game, int sx, int sy)
                 mx++;
                 continue;
             }
-               
             tile_x = (mx * TILE_SIZE - game->player->player_x) * MINIMAP_SCALE;
             tile_y = (my * TILE_SIZE - game->player->player_y) * MINIMAP_SCALE;
             draw_x = (int)(tile_x) + sx;

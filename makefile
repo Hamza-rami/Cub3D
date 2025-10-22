@@ -21,21 +21,21 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
 RM = rm -rf
 LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm
+MLX_DIR = ./minilibx-linux
 
 all: ${NAME}
 
-%.o: %.c ${INC}
+%.o: %.c ${INC} ${INC_BNS}
 	${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}: ${OBJS}
+	make -C $(MLX_DIR)
 	${CC} ${OBJS} -o ${NAME} ${LDFLAGS}
 
 bonus: ${NAME_BNS}
 
-%.o: %.c ${INC_BNS}
-	${CC} ${CFLAGS} -c $< -o $@
-
 ${NAME_BNS}: ${OBJS_BNS}
+	make -C $(MLX_DIR)
 	${CC} ${OBJS_BNS} -o ${NAME_BNS} ${LDFLAGS}
 
 clean:
