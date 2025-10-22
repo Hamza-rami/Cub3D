@@ -18,9 +18,9 @@ INC =  mandatory/parsing/cub.h
 INC_BNS = cub3d_bonus/parsing/cub.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -rf
-LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm
+LDFLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm 
 MLX_DIR = ./minilibx-linux
 
 all: ${NAME}
