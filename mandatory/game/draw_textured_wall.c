@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 15:43:33 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/20 18:57:15 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/26 11:02:17 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double
         tex_num = (ray_dir_y > 0) ? 1 : 0; // south or north
     }
 
-    wall_x = hit->wallX;
+    wall_x = hit->wallx;
     
     // Ensure wall_x is in range [0, 1) using fmod to handle precision issues
     wall_x = fmod(wall_x, 1.0);

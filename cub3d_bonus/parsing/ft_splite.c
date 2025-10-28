@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/12 15:27:18 by hrami             #+#    #+#             */
-/*   Updated: 2025/10/12 15:27:19 by hrami            ###   ########.fr       */
+/*   Created: 2025/10/25 22:13:12 by hrami             #+#    #+#             */
+/*   Updated: 2025/10/26 09:56:24 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
 
 static int	count_word(char const *str, char c)
 {

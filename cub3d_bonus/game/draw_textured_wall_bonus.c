@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_textured_wall_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:42:52 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/20 18:29:14 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/10/26 12:07:25 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void load_texturs(t_game *game)
         game->texturs[i].img = mlx_xpm_file_to_image(game->mlx, texturs[i], &game->texturs[i].width, &game->texturs[i].height);  
         if (!game->texturs[i].img)
         {
-            printf("Loading texture:%s\n ==> %d \n", texturs[i], i);
+            printf("ERROR: Loading texture:%s\n ==> %d failed\n", texturs[i], i);
             ft_mlxfree(game);
             ft_malloc(0,0);
             exit(1);
@@ -91,7 +91,7 @@ void draw_texturs(t_game *game, int x, int end, int start, t_rayhit *hit, double
             tex_num = 0; //north
     }
 
-    wall_x = hit->wallX;
+    wall_x = hit->wallx;
     
     // Ensure wall_x is in range [0, 1) using fmod to handle precision issues
     wall_x = fmod(wall_x, 1.0);

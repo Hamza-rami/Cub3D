@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/12 15:27:15 by hrami             #+#    #+#             */
-/*   Updated: 2025/10/12 15:43:07 by hrami            ###   ########.fr       */
+/*   Created: 2025/10/25 21:31:46 by hrami             #+#    #+#             */
+/*   Updated: 2025/10/26 12:06:13 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,145 +29,71 @@ void	remove_newlines(char **map)
 	}
 }
 
-
-int valide_char(t_game *game)
-{
-	int y = 0;
-	int x;
-	int player = 0;
-	char c;
-
-	remove_newlines(game->map);
-	while (game->map[y])
-	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			c = game->map[y][x];
-			if (c != '1' && c != '0' && c != ' ' && c != 'W' && c != 'S' && c != 'N' && c != 'E' && c != 'D')
-			{
-				printf("Error: Invalid character '%c' at [%d][%d]\n", c, y, x);
-				return 0;
-			}
-			if (c == 'W' || c == 'S' || c == 'N' || c == 'E')
-				player++;
-			if (c == 'D')
-			{
-				if ((game->map[y][x + 1] != '1' && game->map[y][x - 1] != '1') && (game->map[y + 1][x] != '1' && game->map[y - 1][x] != '1'))
-					return(printf("Error: door not between two wall`s"), 0);
-			}
-			x++;
-		}
-		y++;
-	}
-	if (player != 1)
-	{
-		printf("Error: There must be exactly one player\n");
-		return 0;
-	}
-	return 1;
-}
-
-int	ft_max_len(char **map)
-{
-	int i = 0;
-	int max = 0;
-	int len;
-
-	while (map[i])
-	{
-		len = 0;
-		while (map[i][len])
-			len++;
-		if (len > max)
-			max = len;
-		i++;
-	}
-	return (max);
-}
-
-char	**pad_map_lines(char **map)
-{
-	int i = 0;
-	int len;
-	int j;
-	int max = ft_max_len(map);
-	char *new_line;
-
-	while (map[i])
-	{
-		len = 0;
-		while (map[i][len] && map[i][len] != '\n')
-			len++;
-		if (len < max)
-		{
-			new_line = ft_malloc(max + 1, 1);
-			if (!new_line)
-				return (NULL);
-			j = 0;
-			while (j < max)
-			{
-				if (j < len)
-					new_line[j] = map[i][j];
-				else
-					new_line[j] = ' ';
-				j++;
-			}
-			new_line[max] = '\0';
-			map[i] = new_line;
-		}
-		i++;
-	}
-	return (map);
-}
-
-int is_invalid_tile(char c)
+int	is_invalid_tile(char c)
 {
 	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D');
 }
 
-int is_map_closed(t_game *game)
+int	check_border_row(char *row)
 {
-	int y = 0;
-	int x;
+	int	x;
+
+	x = 0;
+	while (row[x])
+	{
+		if (row[x] != '1' && row[x] != ' ')
+		{
+			printf("Error: in border\n");
+			return (0);
+		}
+		x++;
+	}
+	return (1);
+}
+
+int	check_inner_row(char **map, int y)
+{
+	int	x;
+
+	x = 0;
+	while (map[y][x])
+	{
+		if (is_invalid_tile(map[y][x]))
+		{
+			if (x == 0 || map[y][x + 1] == '\0'
+				|| map[y - 1][x] == ' ' || map[y + 1][x] == ' '
+				|| (x > 0 && map[y][x - 1] == ' ') || map[y][x + 1] == ' ')
+			{
+				printf("Error: invalid open space\n");
+				return (0);
+			}
+		}
+		x++;
+	}
+	return (1);
+}
+
+int	is_map_closed(t_game *game)
+{
+	int	y;
+	int	last_row;
 
 	game->map = pad_map_lines(game->map);
-	if (!game->map)
-	{
-		printf("ERROR : ft_malloc failed");
-		return (0);
-	}
+	last_row = 0;
+	while (game->map[last_row])
+		last_row++;
+	y = 0;
 	while (game->map[y])
 	{
-		x = 0;
-		if (y == 0 || game->map[y + 1] == NULL)
+		if (y == 0 || y == last_row - 1)
 		{
-			while (game->map[y][x])
-			{
-				if (game->map[y][x] != '1' && game->map[y][x] != ' ')
-				{
-					printf("Error: in border\n");
-					return (0);
-				}
-				x++;
-			}	
+			if (!check_border_row(game->map[y]))
+				return (0);
 		}
 		else
 		{
-			while (game->map[y][x])
-			{
-				if (is_invalid_tile(game->map[y][x]))
-				{
-					if (x == 0 || !game->map[y][x + 1]
-						|| game->map[y - 1][x] == ' ' || game->map[y + 1][x] == ' '
-						|| game->map[y][x - 1] == ' ' || game->map[y][x + 1] == ' ')
-					{
-						printf("Error: invalid open space\n");
-						return 0;
-					}
-				}
-				x++;
-			}
+			if (!check_inner_row(game->map, y))
+				return (0);
 		}
 		y++;
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/25 22:13:22 by hrami             #+#    #+#             */
+/*   Updated: 2025/10/25 22:13:24 by hrami            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 t_gc	*new_node(void *ptr)
@@ -11,7 +23,6 @@ t_gc	*new_node(void *ptr)
 	new->next = NULL;
 	return (new);
 }
-
 
 void	add_back(t_gc **list, t_gc *new)
 {
@@ -68,12 +79,12 @@ void	*ft_malloc(size_t size, int flag)
 	{
 		ptr = malloc(size);
 		if (!ptr)
-			return (ft_free_all(&mlc), printf("ft_malloc failed\n"), exit(1),
+			return (ft_free_all(&mlc), printf("malloc failed\n"), exit(1),
 				NULL);
 		ft_memset(ptr, 0, size);
 		new = new_node(ptr);
 		if (!new)
-			return (ft_free_all(&mlc), free(ptr), printf("ft_malloc failed\n"),
+			return (ft_free_all(&mlc), free(ptr), printf("malloc failed\n"),
 				exit(1), NULL);
 		add_back(&mlc, new);
 		return (ptr);

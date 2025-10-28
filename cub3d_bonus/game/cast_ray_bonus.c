@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:43:26 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/12 15:54:54 by hrami            ###   ########.fr       */
+/*   Updated: 2025/10/26 11:17:47 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void renader_rays(t_game *game)
         hit.start = start_unclamped;  // Store unclamped for texture calculation
         hit.end = end_unclamped;
         
-        draw_vertical_line(game, col, 0, start, game->ceiling_rgb.value); // Sky
-        draw_vertical_line(game, col, end, game->win_height, game->floor_rgb.value); // Floor
+        draw_vertical_line(game, col, 0, start, game->ceiling_rgb); // Sky
+        draw_vertical_line(game, col, end, game->win_height, game->floor_rgb); // Floor
 
         if (start < end) {
             draw_texturs(game, col, end, start, &hit, ray_angle); // Pass clamped values for rendering
@@ -165,8 +165,8 @@ t_rayhit cast_ray(t_game *game, double ray_angle)
 
     ray.distance = perpWallDist; // In tile units
     ray.side = side;
-    ray.mapX = mapX;
-    ray.mapY = mapY;
+    ray.mapx = mapX;
+    ray.mapy = mapY;
 
     double wallX;
     if (side == 0) {
@@ -175,7 +175,7 @@ t_rayhit cast_ray(t_game *game, double ray_angle)
         wallX = posX + perpWallDist * rayDirX;
     }
     wallX -= floor(wallX);
-    ray.wallX = wallX;
+    ray.wallx = wallX;
 
     return ray;
 }

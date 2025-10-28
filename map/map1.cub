@@ -1,0 +1,19 @@
+NO              texters/wall.xpm
+SO                           texters/wall.xpm
+WE  texters/wall.xpm
+EA texters/wall.xpm
+F 0,0,0
+C 0,0,0
+
+
+ 11111111111
+1SDDDDDDDDDD1
+100DDDDDDD101
+1000DDDDDD101
+10000DDDDD101
+100000DDDD1D1
+1000000DDD11
+10000000DD1 
+100D00000D1
+100000000D1
+ 111111111
