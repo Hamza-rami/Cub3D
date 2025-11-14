@@ -6,7 +6,7 @@
 /*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 02:29:36 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/26 11:58:41 by hrami            ###   ########.fr       */
+/*   Updated: 2025/11/13 12:44:22 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_gc
 # define MINIMAP_RADIUS 100
 # define MINIMAP_SCALE 0.2
 
-# define ROTATE_SPEED 10 * (3.14 / 180);
+# define ROTATE_SPEED 0.174533f//10 * (3.14 / 180);//fixed this for norminette 
 # define MOVE_SPEED 11
 # define WIDTH 1500
 # define HEIGHT 1020
@@ -149,7 +149,7 @@ typedef struct s_gc
 # define KEY_O 111
 # define KEY_C 99
 
-# define FOV (M_PI / 3)
+# define FOV 1.047198f // (M_PI / 3)//fixed this for norminette
 
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);
 char			*ft_strchr(const char *s, int c);
@@ -183,7 +183,7 @@ char			*ft_itoa(int n);
 char			*ft_strjoin(char *s1, char *s2);
 void			renader_rays(t_game *game);
 void			load_texturs(t_game *game);
-
+void			clear_image(t_game *game);
 void			draw_texturs(t_game *game, int x, int end, int start,
 					t_rayhit *hit, double rayAngle);
 int				get_texturs_color(t_texturs *tex, int x, int y);
@@ -205,5 +205,7 @@ void			draw_crosshair(t_game *game);
 void			*ft_malloc(size_t size, int flag);
 void			ft_mlxfree(t_game *game);
 int				ft_close_game(t_game *game);
+void			close_door(t_game *game);
+void			open_door(t_game *game);
 
 #endif

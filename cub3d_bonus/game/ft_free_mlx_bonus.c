@@ -12,8 +12,7 @@
 
 #include "../parsing/cub.h"
 
-
-int ft_close_game(t_game *game)
+int	ft_close_game(t_game *game)
 {
 	ft_mlxfree(game);
 	ft_malloc(0, 0);
@@ -22,8 +21,8 @@ int ft_close_game(t_game *game)
 
 void	ft_cleanup_img(t_game *game)
 {
-	int i;
-	t_weapon *wea ;
+	int			i;
+	t_weapon	*wea;
 
 	i = 0;
 	wea = &game->ak_47;
@@ -37,18 +36,17 @@ void	ft_cleanup_img(t_game *game)
 		}
 		i++;
 	}
-    i = 0;
-    while (i < wea->toto_frames)
-    {
-        if (wea->frames[i])
-        {
-            mlx_destroy_image(game->mlx, wea->frames[i]);
-            wea->frames[i] = NULL;
-        }
-        i++;
-    }
+	i = 0;
+	while (i < wea->toto_frames)
+	{
+		if (wea->frames[i])
+		{
+			mlx_destroy_image(game->mlx, wea->frames[i]);
+			wea->frames[i] = NULL;
+		}
+		i++;
+	}
 }
-
 
 void	ft_mlxfree(t_game *game)
 {

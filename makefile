@@ -3,13 +3,13 @@ NAME_BNS = CUB3D_BNS
 
 SRC = mandatory/parsing/cub.c mandatory/parsing/parse_file.c mandatory/parsing/store_map.c mandatory/parsing/check_ext.c mandatory/next_line/get_next_line.c  mandatory/next_line/get_next_line_utils.c mandatory/parsing/ft_splite.c \
 		mandatory/parsing/valid_char.c mandatory/parsing/ft_atoi.c  mandatory/parsing/parse_map.c mandatory/parsing/ft_malloc.c mandatory/game/rendering.c mandatory/game/cast_ray.c mandatory//game/draw_textured_wall.c \
-		mandatory/game/mlx_free.c
+		mandatory/game/mlx_free.c mandatory/game/put_window.c mandatory/game/check_move.c
 
 
 SRC_BNS = cub3d_bonus/parsing/cub.c cub3d_bonus/parsing/parse_file.c cub3d_bonus/next_line/get_next_line.c  cub3d_bonus/next_line/get_next_line_utils.c cub3d_bonus/parsing/ft_splite.c \
 		cub3d_bonus/parsing/ft_atoi.c cub3d_bonus/parsing/ft_malloc.c  cub3d_bonus/parsing/parse_map.c cub3d_bonus/game/rendering_bonus.c cub3d_bonus/game/cast_ray_bonus.c cub3d_bonus/game/draw_textured_wall_bonus.c \
-		cub3d_bonus/game/minimap_bonus.c cub3d_bonus/game/mouse_move_bonus.c cub3d_bonus/game/animation_bonus.c  cub3d_bonus/game/ft_itoa_bonus.c \
-		cub3d_bonus/game/ft_strjoin_bonus.c cub3d_bonus/game/ft_free_mlx_bonus.c cub3d_bonus/parsing/store_map.c cub3d_bonus/parsing/valid_char.c cub3d_bonus/parsing/check_ext.c
+		cub3d_bonus/game/minimap_bonus.c cub3d_bonus/game/mouse_move_bonus.c cub3d_bonus/game/animation_bonus.c  cub3d_bonus/game/ft_itoa_bonus.c cub3d_bonus/game/door.c cub3d_bonus/game/check_move_bonus.c \
+		cub3d_bonus/game/ft_strjoin_bonus.c cub3d_bonus/game/ft_free_mlx_bonus.c cub3d_bonus/parsing/store_map.c cub3d_bonus/parsing/valid_char.c cub3d_bonus/parsing/check_ext.c cub3d_bonus/game/put_window_bonus.c
 
 OBJS = ${SRC:.c=.o}
 OBJS_BNS = ${SRC_BNS:.c=.o}

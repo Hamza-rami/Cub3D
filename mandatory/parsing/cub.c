@@ -43,15 +43,27 @@ char	*skip_newline(char *str)
 	return (new);
 }
 
-void init_flag(t_game *game)
+void	init_flag(t_game *game)
 {
-    game->has.has_no = 0;
+	game->has.has_no = 0;
 	game->has.has_so = 0;
 	game->has.has_we = 0;
 	game->has.has_ea = 0;
 	game->has.has_f = 0;
 	game->has.has_c = 0;
 	game->count = 0;
+}
+
+void	help_main(t_game *game)
+{
+	load_texturs(game);
+	init_player_angle(game);
+	put_window(game);
+	init_game_graphics(game);
+	mlx_loop_hook(game->mlx, render_loop, game);
+	mlx_hook(game->window, 2, 1L << 0, handle_key, game);
+	mlx_hook(game->window, 17, 0, ft_close_game, game);
+	mlx_loop(game->mlx);
 }
 
 int	main(int ac, char *av[])
@@ -65,7 +77,7 @@ int	main(int ac, char *av[])
 	game->player = ft_malloc(sizeof(t_player), 1);
 	if (!check_extension(ac, av[1]))
 		return (ft_malloc(0, 0), 1);
-    init_flag(game);
+	init_flag(game);
 	parse_texture(av[1], game);
 	store_map(av[1], game);
 	map_staf(game);
@@ -76,13 +88,6 @@ int	main(int ac, char *av[])
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (printf("mlx init failed\n"), ft_malloc(0, 0), 1);
-	load_texturs(game);
-	init_player_angle(game);
-	put_window(game);
-	init_game_graphics(game);
-	mlx_loop_hook(game->mlx, render_loop, game);
-	mlx_hook(game->window, 2, 1L << 0, handle_key, game);
-	mlx_hook(game->window, 17, 0, ft_close_game, game);
-	mlx_loop(game->mlx);
+	help_main(game);
 	return (0);
 }

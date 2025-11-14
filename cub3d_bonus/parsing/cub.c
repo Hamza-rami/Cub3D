@@ -45,6 +45,20 @@ char	*skip_newline(char *str)
 	return (new);
 }
 
+void	help_main(t_game *game)
+{
+	init_weapon(game);
+	init_player_angle(game);
+	load_texturs(game);
+	put_window(game);
+	init_game_graphics(game);
+	mlx_loop_hook(game->mlx, render_loop, game);
+	mlx_hook(game->window, 2, 1L << 0, handle_key, game);
+	mlx_hook(game->window, 6, 1L << 6, mouse_move, game);
+	mlx_hook(game->window, 17, 0, ft_close_game, game);
+	mlx_loop(game->mlx);
+}
+
 int	main(int ac, char *av[])
 {
 	t_game	*game;
@@ -68,15 +82,6 @@ int	main(int ac, char *av[])
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (printf("mlx init failed\n"), ft_malloc(0, 0), 1);
-	init_weapon(game);
-	init_player_angle(game);
-	load_texturs(game);
-	put_window(game);
-	init_game_graphics(game);
-	mlx_loop_hook(game->mlx, render_loop, game);
-	mlx_hook(game->window, 2, 1L << 0, handle_key, game);
-	mlx_hook(game->window, 6, 1L << 6, mouse_move, game);
-	mlx_hook(game->window, 17, 0, ft_close_game, game);
-	mlx_loop(game->mlx);
+	help_main(game);
 	return (0);
 }

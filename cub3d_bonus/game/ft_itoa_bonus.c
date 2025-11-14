@@ -31,14 +31,14 @@ static int	num_len(int n)
 
 char	*ft_itoa(int n)
 {
-	unsigned int	num;
-	char			*str;
-	int				len;
+	unsigned int num;
+	char *str;
+	int len;
 
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
 	len = num_len(n);
-	str = (char *) ft_malloc((len + 1), 1);
+	str = (char *)ft_malloc((len + 1), 1);
 	if (!str)
 		return (NULL);
 	str[len] = '\0';

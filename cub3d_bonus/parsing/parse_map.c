@@ -31,7 +31,8 @@ void	remove_newlines(char **map)
 
 int	is_invalid_tile(char c)
 {
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'D');
+	return (c == '0' || c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W' || c == 'D');
 }
 
 int	check_border_row(char *row)

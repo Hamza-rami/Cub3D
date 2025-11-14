@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhajji <yhajji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hrami <hrami@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:41:04 by yhajji            #+#    #+#             */
-/*   Updated: 2025/10/20 19:28:39 by yhajji           ###   ########.fr       */
+/*   Updated: 2025/11/13 12:03:10 by hrami            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../parsing/cub.h"
 
-
-
-int ft_close_game(t_game *game)
+int	ft_close_game(t_game *game)
 {
 	ft_mlxfree(game);
 	ft_malloc(0, 0);
@@ -23,7 +21,7 @@ int ft_close_game(t_game *game)
 
 void	ft_cleanup_img(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 4)
@@ -37,7 +35,6 @@ void	ft_cleanup_img(t_game *game)
 		i++;
 	}
 }
-
 
 void	ft_mlxfree(t_game *game)
 {

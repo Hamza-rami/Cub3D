@@ -108,7 +108,7 @@ typedef struct s_gc
 # endif
 
 # define TILE_SIZE 64
-# define ROTATE_SPEED 10 * (3.14 / 180);
+# define ROTATE_SPEED 0.174533f//10 * (3.14 / 180);//fixed this for norminette 
 # define MOVE_SPEED 15
 # define WIDTH 1500
 # define HEIGHT 1020
@@ -121,7 +121,7 @@ typedef struct s_gc
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
-# define FOV (M_PI / 3)
+# define FOV 1.047198f // (M_PI / 3)//fixed this for norminette
 
 char			*ft_strncpy(char *dest, char const *src, unsigned int n);
 char			*ft_strchr(const char *s, int c);
